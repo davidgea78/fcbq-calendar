@@ -1,0 +1,142 @@
+[
+  {
+    "match_id": "11984",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "06-09-2026",
+    "time": "11:00",
+    "venue": "CIUTAT ESPORTIVA BLANES\nMAS CUNI, 43, Blanes (17300)",
+    "home": "CENTRE CATÒLIC L'H",
+    "away": "AQUALIS JET TERRASSA U14"
+  },
+  {
+    "match_id": "11988",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "13-09-2026",
+    "time": "16:00",
+    "venue": "POLIESPORTIU CAN JOFRESA\nBADALONA, 4, Terrassa (08220)",
+    "home": "AQUALIS JET TERRASSA U14",
+    "away": "LA SALLE MANRESA A"
+  },
+  {
+    "match_id": "11991",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "19-09-2026",
+    "time": "12:45",
+    "venue": "TARRAGONA - COL. SAGRAT COR\nCARRER MARQUES DE MONTOLIU 5, Tarragona (43002)",
+    "home": "TGN BÀSQUET F13A",
+    "away": "AQUALIS JET TERRASSA U14"
+  },
+  {
+    "match_id": "11995",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "27-09-2026",
+    "time": "16:00",
+    "venue": "POLIESPORTIU CAN JOFRESA\nBADALONA, 4, Terrassa (08220)",
+    "home": "AQUALIS JET TERRASSA U14",
+    "away": "SESE A"
+  },
+  {
+    "match_id": "11998",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "03-10-2026",
+    "time": "15:30",
+    "venue": "PAVELLO MUNICIPAL BARRIS NORD DE LLEIDA\nC/ PRAT DE LA RIBA, 113-115, Lleida (25005)",
+    "home": "NAYOX FORÇA LLEIDA A",
+    "away": "AQUALIS JET TERRASSA U14"
+  },
+  {
+    "match_id": "12001",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "11-10-2026",
+    "time": "16:00",
+    "venue": "POLIESPORTIU CAN JOFRESA\nBADALONA, 4, Terrassa (08220)",
+    "home": "AQUALIS JET TERRASSA U14",
+    "away": "PLOMS SALLE REUS IFU14"
+  },
+  {
+    "match_id": "12008",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "17-10-2026",
+    "time": "17:15",
+    "venue": "PAVELLO MUNICIPAL TORELLO\nPASSATGE DEL ESPORTS, S/N, Torelló (08570)",
+    "home": "CB TORELLÓ IF VERMELL",
+    "away": "AQUALIS JET TERRASSA U14"
+  },
+  {
+    "match_id": "12012",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "25-10-2026",
+    "time": "16:00",
+    "venue": "POLIESPORTIU CAN JOFRESA\nBADALONA, 4, Terrassa (08220)",
+    "home": "AQUALIS JET TERRASSA U14",
+    "away": "CENTRE CATÒLIC L'H"
+  },
+  {
+    "match_id": "12016",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "31-10-2026",
+    "time": "20:15",
+    "venue": "COL.LEGI LA SALLE MANRESA\nLA PAU,  S/N, Manresa (08243)",
+    "home": "LA SALLE MANRESA A",
+    "away": "AQUALIS JET TERRASSA U14"
+  },
+  {
+    "match_id": "12019",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "08-11-2026",
+    "time": "16:00",
+    "venue": "POLIESPORTIU CAN JOFRESA\nBADALONA, 4, Terrassa (08220)",
+    "home": "AQUALIS JET TERRASSA U14",
+    "away": "TGN BÀSQUET F13A"
+  },
+  {
+    "match_id": "12023",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "14-11-2026",
+    "time": "16:00",
+    "venue": "PAVELLO MUNICIPAL VIRREI AMAT\nJUAN ALCOVER, 6, Barcelona (08031)",
+    "home": "SESE A",
+    "away": "AQUALIS JET TERRASSA U14"
+  },
+  {
+    "match_id": "12026",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "06-09-2026",
+    "time": "19:15",
+    "venue": "CIUTAT ESPORTIVA BLANES\nMAS CUNI, 43, Blanes (17300)",
+    "home": "AQUALIS JET TERRASSA U14",
+    "away": "NAYOX FORÇA LLEIDA A"
+  },
+  {
+    "match_id": "12029",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "28-11-2026",
+    "time": "16:00",
+    "venue": "REUS - PAVELLO JOAN SIROLLA\nAVINGUDA MARIA FORTUNY, 5, Reus (43204)",
+    "home": "PLOMS SALLE REUS IFU14",
+    "away": "AQUALIS JET TERRASSA U14"
+  },
+  {
+    "match_id": "12036",
+    "competition": "FASE PRÈVIA",
+    "group": "02",
+    "date": "13-12-2026",
+    "time": "16:00",
+    "venue": "POLIESPORTIU CAN JOFRESA\nBADALONA, 4, Terrassa (08220)",
+    "home": "AQUALIS JET TERRASSA U14",
+    "away": "CB TORELLÓ IF VERMELL"
+  }
+]
