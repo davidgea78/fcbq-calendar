@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from icalendar import Calendar, Event
 
 def generate_ics(team_id, team_name, matches):
@@ -13,6 +14,8 @@ def generate_ics(team_id, team_name, matches):
         dt = datetime.strptime(
             f"{match['date']} {match['time']}",
             "%d-%m-%Y %H:%M"
+        ).replace(
+            tzinfo=ZoneInfo("Europe/Madrid")
         )
 
         event = Event()
