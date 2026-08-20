@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+
+debug_*.html
+competicio_*.html
+equip.html
+partit.txt
+
+output/*.json
+output/*.ics
