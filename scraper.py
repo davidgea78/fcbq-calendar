@@ -11,6 +11,8 @@ def get_competitions(page, team_id):
     page.wait_for_timeout(5000)
 
     html = page.content()
+    if "Verificació de seguretat" in html:
+        print("RECAPTCHA A EQUIP")
 
     return sorted(
         set(
@@ -56,6 +58,9 @@ def get_match_details(page, match_id):
     page.wait_for_timeout(3000)
 
     html = page.content()
+
+    if "Verificació de seguretat" in html:
+        print("RECAPTCHA DETECTAT")
 
     soup = BeautifulSoup(
         html,
