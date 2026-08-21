@@ -86,7 +86,10 @@ with sync_playwright() as p:
         print(
             f"Partits trobats per {team_name}: {len(all_matches)}"
         )
-
+        if len(all_matches) == 0:
+            raise Exception(
+                "No s'han trobat partits. Possible reCAPTCHA."
+            )
         json_file = save_json(
             team_id,
             all_matches
