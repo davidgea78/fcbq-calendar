@@ -22,7 +22,7 @@ def generate_ics(team_id, team_name, matches):
 
         event.add(
             "summary",
-            f"{match['home']} - {match['away']}"
+            f"🏀{match['home']} - {match['away']}"
         )
 
         event.add(
