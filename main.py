@@ -1,6 +1,7 @@
 import os
 import json
 import shutil
+import time
 
 from playwright.sync_api import sync_playwright
 
@@ -24,17 +25,17 @@ with open(
 
 with sync_playwright() as p:
 
-    browser = p.chromium.launch(
+    context = p.chromium.launch_persistent_context(
+        user_data_dir="playwright_profile",
         headless=False
     )
-
-    page = browser.new_page()
+    page = context.new_page()
     os.makedirs(
         "docs",
         exist_ok=True
     )
     for team in teams:
-
+        time.sleep(3)
         team_id = team["id"]
         team_name = team["name"]
 
@@ -119,4 +120,4 @@ with sync_playwright() as p:
             f"Copiat a docs/{team_id}.ics"
         )
 
-    browser.close()
+    context.close()

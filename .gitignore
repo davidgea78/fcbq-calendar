@@ -2,6 +2,8 @@
 __pycache__/
 *.pyc
 
+playwright_profile/
+
 debug_*.html
 competicio_*.html
 equip.html
