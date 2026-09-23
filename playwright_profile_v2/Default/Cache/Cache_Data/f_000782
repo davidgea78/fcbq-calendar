@@ -1,0 +1,899 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+    	<meta charset="UTF-8">
+<link rel="preload" as="script" href="https://www.google.com/recaptcha/api.js?render=6LesyoUsAAAAAOlplDdk9hsYi5ftP2kt6Iy45cWZ">
+<link rel="preload" as="script" href="https://www.basquetcatala.cat/apps/web/continguts/js/recaptcha.js?v0.3.67">
+<title>Federació Catalana de Basquetbol</title>
+
+
+
+<link rel="stylesheet" type="text/css" href="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/bootstrap.min.css?v0.3.67">
+<link rel="stylesheet" type="text/css" href="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/style.css?v0.3.67">
+<link rel="stylesheet" type="text/css" href="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/table.css?v0.3.67">
+<link rel="stylesheet" type="text/css" href="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/news.css?v0.3.67">
+<link rel="stylesheet" type="text/css" href="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/diary.css?v0.3.67">
+<link rel="stylesheet" type="text/css" href="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/utils.css?v0.3.67">
+<link rel="stylesheet" type="text/css" href="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/header.css?v0.3.67">
+<link rel="stylesheet" type="text/css" href="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/competicionsprint2.css?v0.3.67" media="print">
+<link rel="stylesheet" type="text/css" href="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/footer.css?v0.3.67">
+<meta name="google-site-verification" content="ec5glpq2DlqacxffiIaabDDCd55pJ4AZNtUsMAcW2M4" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" type="text/css" href="https://www.basquetcatala.cat/apps/web/continguts/css/centenari.css?v0.3.67">
+<!-- Variables globals (han d'anar ABANS de recaptcha.js) -->
+<script>
+    var urlbase        = "https://www.basquetcatala.cat";
+    var recaptchaSiteKey = "6LesyoUsAAAAAOlplDdk9hsYi5ftP2kt6Iy45cWZ";
+    var fcbqValidUntil = 1790068818; // Unix timestamp d'expiració de la cookie
+</script>
+
+<!-- reCAPTCHA: carrega màxim prioritari, abans de jQuery/Bootstrap -->
+<script src="https://www.google.com/recaptcha/api.js?render=6LesyoUsAAAAAOlplDdk9hsYi5ftP2kt6Iy45cWZ" async></script>
+<script src="https://www.basquetcatala.cat/apps/web/continguts/js/recaptcha.js?v0.3.67"></script>
+
+<script src="https://www.basquetcatala.cat/apps/web/continguts/js/plantilles/2017/jquery.min.js?v0.3.67"></script>
+<script src="https://www.basquetcatala.cat/apps/web/continguts/js/plantilles/2017/bootstrap.min.js?v0.3.67"></script>
+<script src="https://www.basquetcatala.cat/apps/web/continguts/js/plantilles/2017/scripts.js?v0.3.67"></script>
+<script src="https://www.basquetcatala.cat/apps/web/continguts/js/function2017.js?v0.3.67"></script>
+
+
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+
+<!-- Specifics -->
+<link rel="stylesheet" type="text/css" href="https://www.basquetcatala.cat/apps/web/continguts/css/dadesPartit.css?v0.3.67" media="screen" />
+    </head>
+    
+    <body>
+        <div id="header">
+	<div id="brand-wrapper">
+		<div class="container">
+			<div class="row">
+				<div id="brand-left" class="col-md-6">
+					<a href="https://www.basquetcatala.cat/fbc">FUNDACIÓ</a> |
+					<a href="/territorials/girona">RT GIRONA</a> |
+					<a href="/territorials/lleida">RT LLEIDA</a> |
+					<a href="/territorials/tarragona">RT TARRAGONA</a> |
+					<a href="/territorials/comarques">DEL. C. CENTRAL</a>
+				</div>
+				<div class="col-md-2 text-center" id="brand-center">
+				<div id="content" style="display: inline;">
+        			<div id="translate" style="display: inline;" >
+        				<a href="#" id="showTranslate">
+        					IDIOMA							<span class="caret"></span>
+        				</a>	
+        				<div id="box_translate" style="display:none;">
+        					<div id="google_translate_element"></div>
+        				</div>
+        			</div>
+        		</div>
+
+
+
+
+				</div>
+
+				<div id="brand-right" class="col-md-4 text-right">
+					<a href="https://www.instagram.com/basquetcatala/" target="_black" class="socialmedia socialmedia-instagram"></a>
+					<a href="https://x.com/FCBQ" target="_blank" class="socialmedia socialmedia-twitter"></a>
+					<a href="https://www.youtube.com/@basquet-catala" target="_blank" class="socialmedia socialmedia-youtube"></a>
+					<a href="https://www.flickr.com/photos/fcbq/albums" target="_blank" class="socialmedia socialmedia-flickr"></a>
+					<a href="https://www.basquetcatala.cat/pagina/11722" target="_self" class="socialmedia socialmedia-shop"></a>
+					<a href="https://inscripcions.basquetcatala.cat/categories?federacio=fcbq" target="_blank" class="socialmedia socialmedia-inscription"></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="bgimage-wrapper">
+		<div id="logo" class="text-center">
+            <a href="https://www.basquetcatala.cat"><img src="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/img/logos/fcbq2024.png" /></a>
+		</div>
+	</div>
+
+	<div id="navbar-wrapper">
+		<nav class="navbar navbar-inverse navbar-static-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span> 
+
+						<span class="icon-bar"></span> 
+						<span class="icon-bar"></span> 
+						<span class="icon-bar"></span>
+					</button>
+            		<div class="text-center logresponsive">
+            			<a href="https://www.basquetcatala.cat"><img src="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/img/logos/FCBQ_Logo-responsive.png" /></a>
+            		</div>
+				</div>
+				
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li class="dropdown hidden-md hidden-lg" style="display: flex; justify-content: row; align-items: center;justify-content: center; padding-right: 0px; margin-top: 9px">
+        					<a href="https://www.instagram.com/basquetcatala/" target="_black" class="socialmedia socialmedia-instagram"></a>
+        					<a href="https://x.com/FCBQ" target="_blank" class="socialmedia socialmedia-twitter"></a>
+        					<a href="https://www.youtube.com/@basquet-catala" target="_blank" class="socialmedia socialmedia-youtube"></a>
+        					<a href="https://www.flickr.com/photos/fcbq/albums" target="_blank" class="socialmedia socialmedia-flickr"></a>
+        					<a href="https://www.basquetcatala.cat/pagina/11722" target="_self" class="socialmedia socialmedia-shop"></a>
+        					<a href="https://inscripcions.basquetcatala.cat/categories?federacio=fcbq" target="_blank" class="socialmedia socialmedia-inscription"></a>
+						
+        					<a href="https://apps.apple.com/es/app/b%C3%A0squet-catal%C3%A0/id923504242" target="_blank" class="socialmedia socialmedia-ios"></a>
+    						<a href="https://play.google.com/store/apps/details?id=cat.basquetcatala.appbasket&hl=ca" target="_blank" class="socialmedia socialmedia-android"></a>
+						
+						</li>
+						
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">FCBQ<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li>
+									<div class="container">
+										<div class="col-sm-4">
+											<div class="dropdown-header">FCBQ </div>
+    										<div class="dropdown-item"><a href="https://www.basquetcatala.cat/fcbq/funcions"> Què és i les seves Funcions</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/fcbq/historia"> Història</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/fcbq/presidents"> Presidents</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/centenari"> Centenari</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/11446">Xifres Llicències</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Com estem organitzats?</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/fcbq/presentacio">Junta Directiva</a></div>
+											<div class="dropdown-item"><a href="/document/getdocument/870/FCBQ-WEB-Estructura-ORGANICA/pdf" target="_blank">Estructura orgànica estatutària</a></div>
+											<div class="dropdown-item"><a href="/document/getdocument/1163/Organigrama/pdf" target="_blank">Organigrama</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/territorials/girona">RT Girona</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/territorials/lleida">RT Lleida</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/territorials/tarragona">RT Tarragona</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/territorials/comarques">DEL. C. Central</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/8743">Comissions FCBQ</a></div>
+											
+										</div>	
+										<div class="col-sm-4">
+											
+											<div class="dropdown-header">Normatives</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/document/getdocument/2042" target="_blank">Estatuts</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/normatives/reglaments">Reglaments</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/normatives/circulars">Circulars</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/normatives/llei_transparencia">Llei de Transparència i Compliance</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/normatives/tarifes">Tarifes</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/impresos">Impresos</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/plaestrategic">Pla Estratègic</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/9043">Assegurança esportiva obligatòria</a></div>												
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/documents/protocol_graderies">Protocol de Seguretat Violència a les Graderies</a></div>												
+											
+											
+											
+											
+											<div class="dropdown-item"><a target="_blank" href="https://www.basquetcatala.cat/document/getdocument/1677/Codi%20%C3%88tic%20Fitxatge%20de%20menors%20entre%20clubs.pdf">CE Protocol entre clubs fitxatges de menors</a></div>
+											<div class="dropdown-item"><a target="_blank" href="https://www.basquetcatala.cat/document/getdocument/1676/Procediment%20per%20fer%20una%20den%C3%BAnica%20CE.pdf" target="_blank">Procediment per fer una denúncia del CE</a></div>
+											<div class="dropdown-item"><a target="_blank" href="https://www.basquetcatala.cat/document/getdocument/2867/PROCEDIMENT-DE-MEDIACIO.pdf" target="_blank">Procediment de Mediació</a></div>
+											
+											<div class="divider" role="separator"></div>
+											<div class="dropdown-header">Projectes Europeus</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/promise" target="_blank">PROMISE</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/shooter" target="_blank">SHOOTER</a></div>
+
+										</div>	
+										<div class="col-sm-4">
+											
+											<div class="dropdown-header">Projectes FCBQ</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/bqfemeni">Bàsquet Femení</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/cbf">Capitalitat del Bàsquet Femení</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/bqllengua">BQ Llengua</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/bqsalut">BQ Salut</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/BQSolidari">BQ Solidari</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/bqsostenible">BQ Sostenible</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/bqvalors">BQ Valors</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/bqveterans">BQ Veterans</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/grupdebat">Grup de debat</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Col·laboradors i Patrocinadors</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/agraiments">Col·aboradors i Patrocinadors</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Fundació del Bàsquet Català</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/fbc">FBC</a></div>
+											<div class="dropdown-item"><a href="http://fundacio.basquetcatala.cat/2015-09-30-10-59-55/ciutat-del-basquet-catala" target="_blank">Ciutat del Bàsquet Català</a></div>
+																						
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+						
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CLUBS I COMPETICIONS<span class="caret"></span> </a>
+							<ul class="dropdown-menu">
+								<li>
+									<div class="container">
+										<div class="col-sm-4">
+											
+											<div class="dropdown-header">Competicions</div>
+											<!--  <div class="dropdown-item"><a href="https://www.basquetcatala.cat/cerca_competicions/resultats">Resultats i Classificacions</a></div> -->
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/lliguescatalanes">Lligues Catalanes</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/supercopa">Super Copa</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/cerca_competicions/resultats">Cerca Avançada Competicions</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/competicions/altres_competicions">Altres competicions oficials</a></div>											
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/llistatCompeticions/temporades">Resultats d'altres temporades</a></div>											
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Altres activitats</div>
+											<div class="dropdown-item"><a href="http://totbasquet.basquetcatala.cat/" target="_blank">TotBàsquet</a></div>
+											<div class="dropdown-item"><a href="http://molinet.basquetcatala.cat/" target="_blank">Molinet</a></div>
+											<div class="dropdown-item"><a href="https://escoles.basquetcatala.cat/" target="_blank">Escobol</a></div>
+											<div class="dropdown-item"><a href="http://tcloenda.basquetcatala.cat/" target="_blank">Torneig de Cloenda FBC</a></div>
+											<div class="dropdown-item"><a href="https://3x3.basquetcatala.cat/" target="_blank">3x3</a></div>
+											
+											</div>	
+										<div class="col-sm-4">
+											<div class="dropdown-header">Tot sobre la competició</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/normatives/reglaments">Reglaments</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/bases/competicio">Bases de les competicions</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/bases/fasesfinals" target="_self">Fases Finals</a></div>
+											<div class="dropdown-item"><a href="http://www.feb.es/normativa.aspx" target="_blank">Normatives FEB</a></div>
+											<div class="dropdown-item"><a href="http://clubs.basquetcatala.cat/login?redirect=gestordocumentalvisualitzador/categories/40" target="_blank">Resolucions Comitè de Competició</a></div>
+											<div class="dropdown-item"><a href="http://clubs.basquetcatala.cat/login?redirect=gestordocumentalvisualitzador/categories/41" target="_blank">Resolucions Comitè d’Apel·lació</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/document/getdocument/2838/Dossier-informatiu-dels-organs-jurisdiccionals-federatius/pdf" target="_blank">Dossier informatiu dels òrgans jurisdiccionals federatius</a></div>
+										
+											<div class="divider" role="separator"></div>
+										
+											<div class="dropdown-header">Directes</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/directes">Veure partits en directe</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/8471">Promocions d’entrades</a></div>
+											
+										
+										</div>	
+										<div class="col-sm-4">
+											<div class="dropdown-header">Clubs i Entitats afiliades</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/clubs">Clubs</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/noticies/5861">Àrea Privada</a></div>
+											<div class="divider" role="separator"></div>
+										
+																						
+											<div class="dropdown-header">Com afiliar una nova entitat a l'FCBQ</div>
+											<div class="dropdown-item"><a target="_black" href="https://s3-eu-west-1.amazonaws.com/producciofcbq/recursos/documents/secretaria/INFORMACIO-CLUBS%20NOUS.pdf	" target="_blank">Inscripció de club</a></div>
+											<div class="dropdown-item"><a target="_black" href="http://basquet.playoffinformatica.com/FormLogin.php">Inscripció d'equips</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Serveis als Clubs</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/8516" target="_self">Open Data FCBQ</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/noticies/8750" target="_self">Afority</a></div>
+									
+										</div>
+									</div>
+								</li>
+							</ul>
+						</li>
+						<!--  		
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">JUGADORS/ES<span class="caret"></span> </a>
+							<ul class="dropdown-menu">
+								<li>
+									<div class="container">
+										<div class="col-sm-4">
+											
+											<div class="dropdown-header">Campus</div>
+											<div class="dropdown-item"><a href="https://campus.basquetcatala.cat/" target="_black">Campus Bàsquet Català</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/6983" target="_self">Tecnibasquet</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/6987" target="_self">Tecnikids</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/8495" target="_blank">Campus de Bàsquet Nacho Solozabal</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Escoles Bàsquet</div>
+											<div class="dropdown-item"><a href="https://escoles.basquetcatala.cat/" target="_blank">Escoles de bàsquet</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/6890" >Escola bàsquet Nacho Solozabal</a></div>
+										</div>	
+										<div class="col-sm-4">
+											
+											<div class="dropdown-header">Seleccions catalanes</div>
+											<div class="dropdown-item"><a href="https://www.fcbqtecnic.com/mini-masculina" target="_blank">Categoria Mini Masculí</a></div>
+											<div class="dropdown-item"><a href="http://www.fcbqtecnic.com/infantil-masculina" target="_blank">Categoria infantil Masculí</a></div>
+											<div class="dropdown-item"><a href="http://www.fcbqtecnic.com/cadet-masculina" target="_blank">Categoria Cadet Masculí</a></div>
+											<div class="dropdown-item"><a href="https://www.fcbqtecnic.com/mini-femenina" target="_blank">Categoria Mini Femení</a></div>
+											<div class="dropdown-item"><a href="http://www.fcbqtecnic.com/infantil-femenina" target="_blank">Categoria Infantil Femení</a></div>
+											<div class="dropdown-item"><a href="http://www.fcbqtecnic.com/cadet-femenina" target="_blank">Categoria Cadet Femení</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/tecnificacio/historics">Temporades Anteriors</a></div>
+
+										</div>	
+										<div class="col-sm-4">
+										
+											<div class="dropdown-header">Programa Detecció i Perfeccionament "PDP"</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7037" target="_self">Programa</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7013" target="_self">Centres</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7036" target="_self">Reportatge</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">SEGLE XXI</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/6993" target="_self">Programa</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/6990" target="_self">Historia</a></div>
+											<div class="dropdown-item"><a href="https://www.fcbqtecnic.com/equip-tecnic-2019-2020" target="_blank">Equip Tècnic</a></div>
+											<div class="dropdown-item"><a href="https://www.fcbqtecnic.com/segle-junior-19-20" target="_blank">Equip Junior</a></div>
+											<div class="dropdown-item"><a href="https://www.fcbqtecnic.com/segle-senior-19-20" target="_blank">Equip Sènior</a></div>
+										</div>											
+									</div>
+								</li>
+							</ul>
+						</li>
+						-->
+						<!--  
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ENTRENADORS/ES<span class="caret"></span> </a>
+							<ul class="dropdown-menu">
+								<li>
+									<div class="container">
+										<div class="col-sm-4">
+											
+											<div class="dropdown-header">Cursos de Formació</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7019" target="_self">Cursos per ser Entrenador/a</a></div>
+											<div class="dropdown-item"><a href="https://inscripcions.basquetcatala.cat/" target="_blank">Inscripció als cursos</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/document/getdocument/1723/Normativa-Nivell-0/pdf" target="_blank">Nivell 0</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/document/getdocument/1656/Normativa-Primer-Nivell/pdf" target="_blank">Curs de Formació (1r Nivell Federatiu)</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/document/getdocument/1705/Normativa-2n-Nivell/pdf" target="_blank">Curs de Categoría Sènior (2n Nivell Federatiu)</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/document/getdocument/1660/Inscripcio-Curs-Superior--FEB-/pdf" target="_blank">Curs Entrenador Superior</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7015" target="_self">Preus dels cursos</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7018" target="_self">Programa de pràctiques</a></div>
+
+										</div>	
+										<div class="col-sm-4">
+											
+											<div class="dropdown-header">Formació continuada</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7014" target="_self">Cursos d'especialització</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7020" target="_self">Clínics</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7011" target="_self">Dia de l'entrenador</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7030" target="_self">Tallers</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7033" target="_self">Tecnibàsquet</a></div>
+
+										</div>	
+										<div class="col-sm-4">
+										
+											<div class="dropdown-header">Altres</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7018" target="_self">Activitats formació per a entitats</a></div>
+											<div class="dropdown-item"><a href="http://entrenadors.basquetcatala.cat/" target="_blank">Aula virtual</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/6978" target="_self">Centre de pràctiques</a></div>
+											<div class="dropdown-item"><a href="https://fcbq.coachstudio.net/" target="_blank">Coach Studio</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7029" target="_self">Espai tècnic</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7034" target="_self">Inscripció ropec</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7039" target="_self">Llicència d'entrenadors</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/6979" target="_self">FAQs</a></div>
+											
+										</div>											
+									</div>
+								</li>
+							</ul>
+						</li>
+						
+						-->
+						<li class="dropdown"><a href="https://www.basquetcatala.cat/portal/tecnic/jugadors" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">JUGADORS/ES</a></li>
+						
+						<li class="dropdown"><a href="https://www.basquetcatala.cat/portal/tecnic/entrenadors" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">ENTRENADORS/ES</a></li>
+						
+						<li class="dropdown"><a href="https://www.basquetcatala.cat/portal/arbitres" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">ÀRBITRES</a></li>
+						
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CONNECTA<span class="caret"></span> </a>
+							<ul class="dropdown-menu">
+								<li>
+								
+									<div class="container">
+										<div class="col-sm-4">
+											<div class="dropdown-header">Contacte</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/contacte" target="_self">Dades de contacte</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/7428" target="_blank">Vull rebre Newsletters FCBQ</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/11722" target="_self">Botiga del Bàsquet</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/noticies/categoria/89/PromocionsFCBQ" target="_self">Promocions FCBQ</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Facebook</div>
+											<div class="dropdown-item"><a href="https://www.facebook.com/RTLleidaFCBQ" target="_blank">RT Lleida</a></div>
+											<div class="dropdown-item"><a href="https://www.facebook.com/RTTarragonaFCBQ" target="_blank">RT Tarragona</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Twitter</div>
+											<div class="dropdown-item"><a href="https://x.com/FCBQ" target="_blank">FCBQ</a></div>
+											<div class="dropdown-item"><a href="https://x.com/rtgirona" target="_blank">RT Girona</a></div>
+											<div class="dropdown-item"><a href="https://x.com/RTLleidaFCBQ" target="_blank">RT Lleida</a></div>
+											<div class="dropdown-item"><a href="https://x.com/rttarragona" target="_blank">RT Tarragona</a></div>
+											<div class="dropdown-item"><a href="https://x.com/FCBQ_CatCentral" target="_blank">Del. Catalunya Central</a></div>
+											<div class="dropdown-item"><a href="https://x.com/FCBQarbitres" target="_blank">Àrbitres</a></div>
+											<div class="dropdown-item"><a href="https://x.com/FCBQtecnic" target="_blank">Comitè Tècnic</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Instagram</div>
+											<div class="dropdown-item"><a href="https://www.instagram.com/basquetcatala" target="_blank">FCBQ</a></div>
+											<div class="dropdown-item"><a href="https://www.instagram.com/rtgironafcbq" target="_blank">RT Girona</a></div>
+											<div class="dropdown-item"><a href="https://www.instagram.com/rtlleidafcbq" target="_blank">RT Lleida</a></div>
+											<div class="dropdown-item"><a href="https://www.instagram.com/rttarragonafcbq/" target="_blank">RT Tarragona</a></div>
+											<div class="dropdown-item"><a href="https://www.instagram.com/fcbq_catcentral/" target="_blank">Del. Catalunya Central</a></div>
+											<div class="dropdown-item"><a href="https://www.instagram.com/fcbqarbitres" target="_blank">Àrbitres</a></div>
+											<div class="dropdown-item"><a href="https://www.instagram.com/fcbqtecnic" target="_blank">Comitè Tècnic</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Whatsapp</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/contacte" target="_self">Whatsapp Comitè Tècnic</a></div>
+											<div class="divider" role="separator"></div>
+										</div>	
+										<div class="col-sm-4">
+											
+											<div class="dropdown-header">Media</div>
+											<div class="dropdown-item"><a href="https://www.flickr.com/photos/fcbq/albums" target="_blank">Fotos FCBQ (Flickr)</a></div>
+											<div class="dropdown-item"><a href="https://www.youtube.com/@basquet-catala" target="_blank">Videos FCBQ (Youtube)</a></div>
+											<div class="dropdown-item"><a href="https://www.youtube.com/channel/UCwJN3rJyjo6OBB632m5GZoA" target="_blank">Videos RT Lleida (Youtube)</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/radiofcbq" target="_blank">Ràdio Bàsquet Català (RBQ)</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/6882" target="_blank">Àrbitre TV</a></div>
+											<div class="dropdown-item"><a href="https://www.youtube.com/channel/UCjPabCioNEhszDIgvHKi_6g" target="_blank">Tècnic TV</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/mesbasquet" target="_self">+Bàsquet</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Aplicacions mòbils</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/noticies/9852" target="_self">Bàsquet Català</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/pagina/8828" target="_blank">Acta digital</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Descarrega</div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/multimedia/musica" target="_self">Himnes i músiques</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/multimedia/logos" target="_self">Logos i entitat corporativa</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/document/getdocument/3042" target="_black">Manual logo Super Copa per samarretes</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/document/getdocument/3043" target="_blank">Logos Super Copa</a></div>
+											<div class="dropdown-item"><a href="https://www.basquetcatala.cat/bqfemeni/demanacanvi" target="_self">Campanya #DemanaCANVI Bàsquet Femení</a></div>
+											<div class="dropdown-item"><a href="https://www.termcat.cat/ca/diccionaris-en-linia/318" target="_self">Diccionari de bàsquet</a></div>
+											<div class="divider" role="separator"></div>
+										</div>	
+										<div class="col-sm-4">
+											
+											<div class="dropdown-header">Canals de gestió FCBQ</div>
+											<div class="dropdown-item"><a href="https://clubs.basquetcatala.cat/login" target="_blank">Àrea Privada de Clubs</a></div>
+											<div class="dropdown-item"><a href="https://clubs.basquetcatala.cat/login?redirect=atencioalclub" target="_blank">DAC (Departament Atenció al Club)</a></div>
+											<div class="dropdown-item"><a href="http://basquet.playoffinformatica.com/FormLogin.php" target="_blank">Aplicació de llicències (Playoff)</a></div>
+											<div class="dropdown-item"><a href="https://inscripcions.basquetcatala.cat/categories?federacio=fcbq" target="_blank">Inscripcions (formació/ esdeveniments…)</a></div>
+											<div class="divider" role="separator"></div>
+										
+											<div class="dropdown-header">Canals de gestió ARBITRES</div>
+											<div class="dropdown-item"><a href="https://arbitres.basquetcatala.cat/canal_arbitre/arbitres_login" target="_blank">Àrea Privada arbitres</a></div>
+											<div class="dropdown-item"><a href="http://aula-virtual-arbitral.basquetcatala.cat/login/index.php" target="_blank">Aula Virtual àrbitral</a></div>
+											<div class="divider" role="separator"></div>
+											
+											<div class="dropdown-header">Canals de gestió C. TÈCNIC</div>
+											<div class="dropdown-item"><a href="http://entrenadors.basquetcatala.cat" target="_blank">Àrea virtual d'entrenadors/es</a></div>
+											<div class="dropdown-item"><a href="https://fcbq.coachstudio.net/" target="_blank">Coach Studio</a></div>
+											<div class="divider" role="separator"></div>
+									</div>											
+									</div>
+								
+								<!-- Fin -->
+
+								</li>
+							</ul>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+</div>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.write(detectDevice(1, null	));</script>        
+        <div id="content-wrapper">
+        	<div class="container">
+        		<div class="row">
+        			<div class="col-md-12">
+        				<!-- GOOGLE -->
+    <script>document.write(detectDevice(null, 1));</script>
+    <script>document.write(detectDevice(null, 2));</script>
+<!-- FIN GOOGLE -->
+
+<div  id="match-page">
+    <h2>C.T. MINI MASCULÍ 1R. ANY</h2>
+        <hr>
+    	<div class="row container">
+    		        	<div class="col-md-12 col-xs-12 text-center" >
+        		<div class="row">
+        		<div class="col-md-5 col-xs-5 text-right"><h1 class="text-xs-right">&nbsp;</h1></div>
+        		<div class="col-md-2 col-xs-2 text-center"><h1 class="text-xs-centre">-</h1></div>
+        		<div class="col-md-5 col-xs-5 text-left"><h1 class="text-xs-left">&nbsp;</h1></div>
+        		
+        		<div class="col-md-5 col-xs-5 text-right"><h3 class="text-xs-right">Local</h3></div>
+        		<div class="col-md-2 col-xs-2 text-center"><h3 class="text-xs-centre">&nbsp;</h3></div>
+        		<div class="col-md-5 col-xs-5 text-left"><h3 class="text-xs-left">Visitant</h3></div>
+        		
+        		<div class="col-md-5 col-xs-5 text-right"><h4 class="text-xs-right"><a href="/equip/91309"><strong>UE SANT CUGAT - OCCIDENT 2016</strong></a></h4></div>
+        		<div class="col-md-2 col-xs-2 text-center"><h1 class="text-xs-centre"></h1></div>
+        		<div class="col-md-5 col-xs-5 text-left"><h4 class="text-xs-left"><a href="/equip/91337"><strong>TRANSCOTO - E.B. ROSELLA NEGRE</strong></a></h4></div>
+        		</div>
+        	</div>
+        </div>
+        <!-- ESTAT ICONS-->
+    	<div class="row">
+    		<hr>	
+            <div class="col-md-8 col-xs-12 text-left m-bottom-10">
+        		<a href="/competicions/resultats/24019"><img title="calendari" class="m-right-5" src="https://www.basquetcatala.cat/apps/web/continguts/img/icons/calendari_30x30px2.png">Calendari</a>
+        		        			        			        			<a target="_blank" href="https://clubs.basquetcatala.cat/login?redirect=%2Fauth%2Fcompetition%2Fmatches%2F6d4a4385-1212-4411-894f-7b3653ccfbb5%2Frequest"><img class="m-right-5" title="demanar canvis" src="https://www.basquetcatala.cat/apps/web/continguts/img/icons/canvi_partit_30x30px2.png">Solicitar Canvi</a>
+        			        		    			            </div>
+            <div class="col-md-4 col-xs-12 text-right m-bottom-10">
+    			                    				
+    				
+                                
+                
+                            </div>
+        </div>
+    	<div class="col-md-6 col-xs-12 acta">
+    		<div class="row">
+    			<label>Competició:</label>
+    			PRIMERA FASE - NIVELL A    		</div>
+    		<div class="row">
+    			<label>Grup:</label>
+    			 06    		</div>
+    		<div class="row">
+    			<label>Data partit:</label>
+    			10-10-2026    		</div>
+    		<div class="row">
+    			<label>Hora partit:</label>
+    			10:30    		</div>
+    		<div class="row">
+    			<label>Instal·lació:</label> 
+    			INSTITUT LEONARDO DA VINCI<br>
+    			C/ D'ALFONS D'ARAGO, 20, Sant Cugat del Vallès (08174)<br>
+    		</div>
+    		<div class="row">
+    			<label>Partit:</label>
+    			34115    		</div>
+    		<hr>
+    	<div class="col-md-12"><label>Colors SAMARRETA - PANTALÓ primera equipació:</label></div>
+    		<div class="row">
+    			UE SANT CUGAT - OCCIDENT 2016: NEGRE -  NEGRE<br/>
+    			TRANSCOTO - E.B. ROSELLA NEGRE: BLANC I VERMELL -  NEGRE    		</div>
+    		<hr>
+    		    	</div>
+    	
+    	<div class="col-md-6 col-xs-12">
+    		<div id="acta-wrapper" class="text-center" style="margin:0 auto;">
+    		        			  	<iframe style="min-height: 325px; width: 100%;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=s_d&amp;hl=en&amp;saddr=41.481360,2.073210&amp;z=15&amp;output=embed"></iframe>
+    				    		
+    			<div id="acta-spinner"><img src="https://www.basquetcatala.cat/apps/web/continguts/img/FCBQloading.gif" /></div>
+    			<div id="acta-imatge-wrapper" style="display: none;">
+    				<img id="acta-imatge" class="cursor-pointer" onclick="obrirActa()" style="max-height: 100%; max-width: 100%;" />
+    			</div>
+    		</div>
+    	</div>
+</div>
+
+<script>
+
+function obrirActa() {
+	var imatge = $("#acta-imatge");
+	window.open(imatge.attr("src"), "_blank");
+}
+
+$(document).ready(function() {
+	var spinner = $("#acta-spinner");
+	var wrapper = $("#acta-imatge-wrapper");
+	var imatge = $("#acta-imatge");
+
+			spinner.hide();
+		//alert("Hi ha hagut un problema a l\'hora de carregar l\'acta. Torna a provar-ho més tard o posa\'t en contacte amb la Federació. (ERRx)");
+	});
+
+</script>        			</div>
+        		</div>
+        	</div>
+        </div>
+        
+        <div><script>document.write(detectDevice(4, 5));</script></div>
+
+<div id="footer">
+	<div class="container">
+		<div class="row">
+			<div id="footer-left" class="col-md-4">
+				<div id="footer-logo">
+					<img src="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/img/logos/fcbq.png" />
+				</div>
+				
+				<div class="footer-text">
+					<a href="https://goo.gl/maps/NeUZD7uociw" target="_blank">Rambla Guipúscoa, 27<br>
+					08018 Barcelona</a><br>
+					<a href="tel:+34933966600">93 396 66 00</a><br>
+				</div>
+			</div>
+			
+			<div id="footer-center" class="col-md-4">
+				<div class="footer-title">
+					Departaments i Comitès de l’FCBQ				</div>
+				
+				<div class="footer-text">
+					<div class="row">
+						<div class="col-md-7">
+							<a href="https://www.basquetcatala.cat/departament/6844">Presidència</a><br>
+							<a href="https://www.basquetcatala.cat/departament/6875">Gerència</a><br>
+							<a href="https://www.basquetcatala.cat/departament/6831">RRPP i Protocol</a><br>
+							<a href="https://www.basquetcatala.cat/departament/6853">Tècnic</a><br>
+							<a href="https://www.basquetcatala.cat/departament/6854">Activitats</a><br>
+							<a href="https://www.basquetcatala.cat/departament/6884">Àrbitres</a><br>
+							<a href="https://www.basquetcatala.cat/departament/6852">Promoció</a><br>
+						</div>
+						
+						<div class="col-md-5">
+							<a href="https://www.basquetcatala.cat/departament/6856">Premsa i Comunicació</a><br>
+							<a href="https://www.basquetcatala.cat/departament/6859">Llicències</a><br>
+							<a href="https://www.basquetcatala.cat/departament/6860">Financer i Administració</a><br>
+							<a href="https://www.basquetcatala.cat/departament/6814">Màrqueting</a><br>
+							<a href="https://www.basquetcatala.cat/dac">Atenció al Club</a><br>
+							<a href="https://www.basquetcatala.cat/ComitesJurisdiccionals">Jurisdiccionals</a><br>
+							<a href="https://www.basquetcatala.cat/fbc">Fundació Bàsquet Català</a><br>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="footer-right" class="col-md-4">
+				<div class="col-md-12"><a href="http://esport.gencat.cat/ca/inici/" target="_blank"><img style="max-width: 151px!important;" src="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/img/logos/generalitat2.png" /></a></div>
+				<div class="col-md-12"><a href="https://www.basquetcatala.cat/normatives/llei_transparencia" target="_self"><img style="max-width: 151px!important; margin-top: 48px;" src="https://www.basquetcatala.cat/apps/web/continguts/css/plantilles/2017/img/logos/entitatEtica.png" /></a></div>
+				
+			</div>
+		</div>
+		<div class="row">
+			<div id="footer-copyright" class="col-md-12 text-center">
+			 	<a href="https://www.basquetcatala.cat/mapaweb">Mapa web</a>
+				/&nbsp;<a href="https://www.basquetcatala.cat/contacte">Contacte</a>
+				/&nbsp;<a href="https://www.basquetcatala.cat/document/getdocument/2401/Avís legal" target="_blank">Avís legal</a>
+				/&nbsp;<a href="https://www.basquetcatala.cat/document/getdocument/2402/Política de Privacitat Web" target="_blank">Política de Privacitat Web</a>
+				/&nbsp;<a href="https://www.basquetcatala.cat/document/getdocument/2404/Política de Cookies" target="_black">Cookies</a>
+				/&nbsp;<a href="https://www.basquetcatala.cat/document/getdocument/2403/Política de Xarxes Socials" target="_black">Política de Xarxes Socials</a>
+			
+                <div>
+                	Copyright Federació Catalana de Basquetbol 2018 - 2026 
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+// Almacenar configuraciones de cookies en localStorage
+const cookieConsentManager = {
+    settingsKey: 'cookieConsentSettings',
+
+    defaultSettings: {
+        "strictlyNecessary": true,
+        "tracking": true
+    },
+
+    loadSettings: function () {
+        const storedSettings = localStorage.getItem(this.settingsKey);
+        return storedSettings ? JSON.parse(storedSettings) : this.defaultSettings;
+    },
+
+    saveSettings: function (settings) {
+        localStorage.setItem(this.settingsKey, JSON.stringify(settings));
+    }
+};
+
+// Iniciar consentimiento al cargar la página
+document.addEventListener('DOMContentLoaded', function () {
+    const settings = cookieConsentManager.loadSettings();
+
+    // Mostrar el banner de aviso si el usuario no ha interactuado
+    if (!localStorage.getItem('cookieConsentGiven')) {
+        showCookieNoticeBanner();
+    }
+
+    // Función para mostrar el banner de aviso
+    function showCookieNoticeBanner() {
+        // Crear un fondo semitransparente
+        const overlay = document.createElement('div');
+        overlay.id = 'cookie-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        overlay.style.zIndex = '9998';
+        document.body.appendChild(overlay);
+
+        // Crear el banner de aviso de cookies
+        const banner = document.createElement('div');
+        banner.id = 'cookie-banner';
+        banner.style.position = 'fixed';
+        banner.style.top = '50%';
+        banner.style.left = '50%';
+        banner.style.transform = 'translate(-50%, -50%)';
+        banner.style.backgroundColor = '#fff';
+        banner.style.color = '#333';
+        banner.style.padding = '35px';
+        banner.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.3)';
+        banner.style.zIndex = '9999';
+        banner.style.borderRadius = '3px';
+        banner.style.maxWidth = '600px';
+        banner.style.width = '100%';
+        banner.innerHTML = `
+            <h2 style="margin-bottom: 10px; font-size: 1.5em; color: #333;">Aquest web utilitza galetes (cookies)</h2>
+            <p style="margin-bottom: 20px; color: #666;">Aquest lloc web utilitza galetes i altres tecnologies de seguiment per millorar la vostra experiència de navegació amb les finalitats següents: per habilitar la funcionalitat bàsica del lloc web, per oferir una millor experiència al lloc web i per mesurar el vostre interès pels nostres productes i serveis.
+            </p>
+            
+            <p style="margin-bottom: 20px; color: #666;">
+                <a href="https://www.basquetcatala.cat/document/getdocument/2404/Pol%C3%ADtica%20de%20Cookies" target="_blank">Més informació sobre l'ús de les galetes en aquest web.</a>
+            </p>
+            
+            <div style="text-align: center;">
+                <button id="reject-cookies" style="margin-top: 5px; border-radius: 3px; background-color: #eaeaea; border: none; color: black; padding: 7px 15px; cursor: pointer;">Rebutja-les</button>
+                <button id="preferences-cookies" style="margin-top: 5px; border-radius: 3px; background-color: #eaeaea; border: none; color: black; padding: 7px 15px; cursor: pointer;">Preferències</button>
+                <button id="accept-all-cookies" style="margin-top: 5px; border-radius: 3px; background-color: green; border: none; color: #fff; padding: 7px 15px; cursor: pointer; margin-right: 10px;">Accepta-les totes</button>
+           
+            </div>
+        `;
+        document.body.appendChild(banner);
+
+        // Eventos de botones
+        document.getElementById('accept-all-cookies').addEventListener('click', function () {
+            cookieConsentManager.saveSettings({
+                "strictlyNecessary": true,
+                "tracking": true
+            });
+            localStorage.setItem('cookieConsentGiven', true);
+            removeCookieBanner();
+            overlay.remove();
+            loadGoogleAnalytics();
+        });
+
+        document.getElementById('reject-cookies').addEventListener('click', function () {
+            cookieConsentManager.saveSettings({
+                "strictlyNecessary": true,
+                "tracking": false
+            });
+            localStorage.setItem('cookieConsentGiven', true);
+            removeCookieBanner();
+            overlay.remove();
+        });
+
+        document.getElementById('preferences-cookies').addEventListener('click', function () {
+            removeCookieBanner();
+            overlay.remove();
+            showCookiePreferencesBanner();
+        });
+    }
+
+    // Función para mostrar el banner de preferencias
+    function showCookiePreferencesBanner() {
+        // Crear un fondo semitransparente
+        const overlay = document.createElement('div');
+        overlay.id = 'cookie-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        overlay.style.zIndex = '9998';
+        document.body.appendChild(overlay);
+
+        // Crear el banner de preferencias de cookies
+        const banner = document.createElement('div');
+        banner.id = 'cookie-preferences-banner';
+        banner.style.position = 'fixed';
+        banner.style.top = '50%';
+        banner.style.left = '50%';
+        banner.style.transform = 'translate(-50%, -50%)';
+        banner.style.backgroundColor = '#fff';
+        banner.style.color = '#333';
+        banner.style.padding = '35px';
+        banner.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.3)';
+        banner.style.zIndex = '9999';
+        banner.style.borderRadius = '3px';
+        banner.style.maxWidth = '600px';
+        banner.style.width = '100%';
+        banner.innerHTML = `
+            <h2 style="margin-bottom: 10px; font-size: 1.5em; color: #333;">Preferències de galetes (cookies)</h2>
+            <div style="margin-bottom: 10px;">
+                <label style="display: flex; align-items: center;">
+                    <input type="checkbox" disabled checked style="margin-right: 10px;" />
+                    <span>Galetes estrictament necessàries (sempre actives)</span>
+                </label>
+                <p style="margin: 5px 0 15px 25px; color: #666; font-size: 0.9em;">Aquestes galetes són essencials per oferir-vos el nostres serveis i funcionalitats al nostre lloc web. Sense aquestes galetes, no us podem oferir alguns serveis.</p>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label style="display: flex; align-items: center;">
+                    <input type="checkbox" id="tracking-cookies" ${settings.tracking ? 'checked' : ''} style="margin-right: 10px;" />
+                    <span>Analítica</span>
+                </label>
+                <p style="margin: 5px 0 15px 25px; color: #666; font-size: 0.9em;">Recullen informació anònima sobre l'ús del web, les pàgines que visites, els elements amb els quals interactues i com has arribat al web. Aquesta informació es fa servir per analitzar el comportament dels usuaris al web i millorar-ne l'experiència.</p>
+            </div>
+            <div style="text-align: center;">
+            
+            
+                <button id="reject-cookies" style="margin-top: 5px; border-radius: 3px; background-color: #eaeaea; border: none; color: black; padding: 7px 15px; cursor: pointer;">Rebutja-les</button>
+                <button id="save-preferences" style="margin-top: 5px; border-radius: 3px; background-color: green; border: none; color: white; padding: 7px 15px; cursor: pointer;">Guardar</button>
+                
+            </div>
+        `;
+        document.body.appendChild(banner);
+
+        // Evento para guardar preferencias de cookies
+        document.getElementById('save-preferences').addEventListener('click', function () {
+            const tracking = document.getElementById('tracking-cookies').checked;
+            cookieConsentManager.saveSettings({
+                "strictlyNecessary": true,
+                "tracking": tracking
+            });
+            localStorage.setItem('cookieConsentGiven', true);
+            removeCookieBanner();
+            overlay.remove();
+            if (tracking) {
+                loadGoogleAnalytics();
+            }
+        });
+        
+       document.getElementById('reject-cookies').addEventListener('click', function () {
+            cookieConsentManager.saveSettings({
+                "strictlyNecessary": true,
+                "tracking": false
+            });
+            localStorage.setItem('cookieConsentGiven', true);
+            removeCookieBanner();
+            overlay.remove();
+        });
+
+        // Evento para cerrar el banner de preferencias
+        document.getElementById('close-modal').addEventListener('click', function () {
+            removeCookieBanner();
+            overlay.remove();
+        });
+        
+ 
+    }
+    
+
+
+    // Función para eliminar banners
+    function removeCookieBanner() {
+        const banner = document.getElementById('cookie-banner');
+        const preferencesBanner = document.getElementById('cookie-preferences-banner');
+        if (banner) banner.remove();
+        if (preferencesBanner) preferencesBanner.remove();
+    }
+
+    // Función para cargar Google Analytics
+    function loadGoogleAnalytics() {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-HR799BM9VD';
+        document.head.appendChild(script);
+
+        script.onload = function () {
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-HR799BM9VD');
+        };
+    }
+    
+        // Configurar enlace para abrir el popup de preferencias
+    const openPreferencesLink = document.getElementById('open-cookie-preferences');
+    if (openPreferencesLink) {
+        openPreferencesLink.addEventListener('click', function (event) {
+            event.preventDefault(); // Evitar comportamiento predeterminado del enlace
+            showCookiePreferencesBanner(); // Mostrar el banner de preferencias
+        });
+    }
+});
+
+
+
+</script>
+
+
+<!-- Widget d'accessibilitat -->
+<script src="https://www.basquetcatala.cat/apps/web/continguts/js/accessibility-widget.js?v0.3.67" defer charset="UTF-8"
+        data-lang="ca"
+        data-position="bottom-left"
+        data-color="#312783"
+        data-credit-name="Optimal Way"
+        data-credit-url="https://optimalwayconsulting.com/"></script>
+
+
+    </body>
+
+</html>

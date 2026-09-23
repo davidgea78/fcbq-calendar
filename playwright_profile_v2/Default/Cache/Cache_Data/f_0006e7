@@ -1,0 +1,990 @@
+/*!
+ * Widget de Accesibilidad Universal v2
+ * Uso: <script src="accessibility-widget.js" defer
+ *        data-lang="es"            (es | gl | ca | eu | auto)
+ *        data-position="bottom-right"
+ *        data-color="#2457c5"></script>
+ *
+ * Sin dependencias. Compatible con cualquier tecnología web.
+ */
+(function () {
+  'use strict';
+
+  if (window.__a11yWidgetLoaded) return;
+  window.__a11yWidgetLoaded = true;
+
+  /* ---------------------------------------------------------------------
+   * CONFIGURACIÓN
+   * ------------------------------------------------------------------- */
+  var currentScript =
+    document.currentScript ||
+    (function () {
+      var s = document.getElementsByTagName('script');
+      return s[s.length - 1];
+    })();
+
+  function attr(name, fallback) {
+    if (!currentScript) return fallback;
+    var v = currentScript.getAttribute(name);
+    return v === null || v === '' ? fallback : v;
+  }
+
+  var STORAGE_KEY = 'a11yWidgetPrefs_v2';
+  var PRIMARY_COLOR = attr('data-color', '#146c5f');
+  var POSITION = attr('data-position', 'bottom-right');
+  var LANG_ATTR = attr('data-lang', 'auto');
+  var SUPPORTED_LANGS = ['es', 'gl', 'ca', 'eu', 'en'];
+  var LANG_NAMES = { es: 'Castellano', gl: 'Galego', ca: 'Català', eu: 'Euskara', en: 'English' };
+  var SPEECH_LANG = { es: 'es-ES', gl: 'gl-ES', ca: 'ca-ES', eu: 'eu-ES', en: 'en-US' };
+  var CREDIT_NAME = attr('data-credit-name', 'Optimal Way');
+  var CREDIT_URL = attr('data-credit-url', 'https://optimalwayconsulting.com/');
+
+  function detectLang() {
+    if (SUPPORTED_LANGS.indexOf(LANG_ATTR) !== -1) return LANG_ATTR;
+    var htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+    for (var i = 0; i < SUPPORTED_LANGS.length; i++) {
+      if (htmlLang.indexOf(SUPPORTED_LANGS[i]) === 0) return SUPPORTED_LANGS[i];
+    }
+    var nav = ((navigator.language || 'es') + '').toLowerCase();
+    for (var j = 0; j < SUPPORTED_LANGS.length; j++) {
+      if (nav.indexOf(SUPPORTED_LANGS[j]) === 0) return SUPPORTED_LANGS[j];
+    }
+    return 'es';
+  }
+
+  /* ---------------------------------------------------------------------
+   * TEXTOS
+   * ------------------------------------------------------------------- */
+  var STRINGS = {
+    es: {
+      title: 'Accesibilidad', openLabel: 'Abrir panel de accesibilidad', closeLabel: 'Cerrar',
+      resetAll: 'Restablecer todo', language: 'Idioma',
+      footer: 'Preferencias guardadas en este navegador',
+      tabProfiles: 'Perfiles', tabColor: 'Color', tabText: 'Texto', tabReading: 'Lectura', tabNav: 'Navegación',
+      profilesIntro: 'Combinaciones pensadas para necesidades concretas. Puedes ajustar cada opción por separado en las demás pestañas.',
+      profileNone: 'Sin perfil', profileEpilepsy: 'Sensibilidad a destellos', profileLowVision: 'Baja visión',
+      profileDyslexia: 'Dislexia', profileAdhd: 'Dificultad de concentración', profileSenior: 'Persona mayor',
+      profileMotor: 'Movilidad reducida',
+      colorBlindTitle: 'Filtro de daltonismo', cbNone: 'Ninguno', cbProtan: 'Protanopia', cbDeuter: 'Deuteranopia',
+      cbTritan: 'Tritanopia', cbAchroma: 'Acromatopsia',
+      sliderContrast: 'Contraste', sliderSaturation: 'Saturación', sliderBrightness: 'Brillo',
+      toggleInvert: 'Invertir colores', toggleGrayscale: 'Blanco y negro',
+      customColorsTitle: 'Colores personalizados', useCustomColors: 'Activar colores propios',
+      bgColor: 'Fondo', textColor: 'Texto', titleColor: 'Títulos',
+      textTitle: 'Ajustes de texto', sliderFontSize: 'Tamaño de letra', sliderLetterSpacing: 'Espacio entre letras',
+      sliderLineHeight: 'Espacio entre líneas', sliderWordSpacing: 'Espacio entre palabras',
+      toggleDyslexiaFont: 'Tipografía para dislexia', toggleAlignLeft: 'Alinear texto a la izquierda',
+      readingTitle: 'Ayudas de lectura', toggleReadingGuide: 'Guía de lectura', toggleFocusMode: 'Modo foco',
+      toggleHideImages: 'Ocultar imágenes', toggleHighlightLinks: 'Resaltar enlaces',
+      toggleHighlightTitles: 'Resaltar títulos', toggleMuteSounds: 'Silenciar audio y vídeo',
+      toggleStopAnim: 'Detener animaciones', ttsLabel: 'Lectura en voz alta', ttsPlay: 'Leer página',
+      ttsStop: 'Detener lectura', ttsReading: 'Leyendo…',
+      navTitle: 'Navegación', cursorLabel: 'Cursor', cursorNone: 'Normal', cursorBlack: 'Grande negro',
+      cursorWhite: 'Grande blanco', toggleKeyboardHelp: 'Resaltar foco de teclado',
+      pageStructureLabel: 'Mapa de la página', pageStructureEmpty: 'No se han encontrado títulos en esta página.',
+      zoomLabel: 'Zoom de página', zoomReset: 'Restablecer zoom', creditPrefix: 'Desarrollado por'
+    },
+    gl: {
+      title: 'Accesibilidade', openLabel: 'Abrir panel de accesibilidade', closeLabel: 'Pechar',
+      resetAll: 'Restablecer todo', language: 'Idioma',
+      footer: 'Preferencias gardadas neste navegador',
+      tabProfiles: 'Perfís', tabColor: 'Cor', tabText: 'Texto', tabReading: 'Lectura', tabNav: 'Navegación',
+      profilesIntro: 'Combinacións pensadas para necesidades concretas. Podes axustar cada opción por separado nas demais pestanas.',
+      profileNone: 'Sen perfil', profileEpilepsy: 'Sensibilidade a destellos', profileLowVision: 'Baixa visión',
+      profileDyslexia: 'Dislexia', profileAdhd: 'Dificultade de concentración', profileSenior: 'Persoa maior',
+      profileMotor: 'Mobilidade reducida',
+      colorBlindTitle: 'Filtro de daltonismo', cbNone: 'Ningún', cbProtan: 'Protanopia', cbDeuter: 'Deuteranopia',
+      cbTritan: 'Tritanopia', cbAchroma: 'Acromatopsia',
+      sliderContrast: 'Contraste', sliderSaturation: 'Saturación', sliderBrightness: 'Brillo',
+      toggleInvert: 'Inverter cores', toggleGrayscale: 'Branco e negro',
+      customColorsTitle: 'Cores personalizadas', useCustomColors: 'Activar cores propias',
+      bgColor: 'Fondo', textColor: 'Texto', titleColor: 'Títulos',
+      textTitle: 'Axustes de texto', sliderFontSize: 'Tamaño de letra', sliderLetterSpacing: 'Espazo entre letras',
+      sliderLineHeight: 'Espazo entre liñas', sliderWordSpacing: 'Espazo entre palabras',
+      toggleDyslexiaFont: 'Tipografía para dislexia', toggleAlignLeft: 'Aliñar texto á esquerda',
+      readingTitle: 'Axudas de lectura', toggleReadingGuide: 'Guía de lectura', toggleFocusMode: 'Modo foco',
+      toggleHideImages: 'Ocultar imaxes', toggleHighlightLinks: 'Resaltar ligazóns',
+      toggleHighlightTitles: 'Resaltar títulos', toggleMuteSounds: 'Silenciar audio e vídeo',
+      toggleStopAnim: 'Deter animacións', ttsLabel: 'Lectura en voz alta', ttsPlay: 'Ler páxina',
+      ttsStop: 'Deter lectura', ttsReading: 'Lendo…',
+      navTitle: 'Navegación', cursorLabel: 'Cursor', cursorNone: 'Normal', cursorBlack: 'Grande negro',
+      cursorWhite: 'Grande branco', toggleKeyboardHelp: 'Resaltar foco de teclado',
+      pageStructureLabel: 'Mapa da páxina', pageStructureEmpty: 'Non se atoparon títulos nesta páxina.',
+      zoomLabel: 'Zoom de páxina', zoomReset: 'Restablecer zoom', creditPrefix: 'Desenvolvido por'
+    },
+    ca: {
+      title: 'Accessibilitat', openLabel: "Obrir el panell d'accessibilitat", closeLabel: 'Tancar',
+      resetAll: 'Restablir-ho tot', language: 'Idioma',
+      footer: 'Preferències desades en aquest navegador',
+      tabProfiles: 'Perfils', tabColor: 'Color', tabText: 'Text', tabReading: 'Lectura', tabNav: 'Navegació',
+      profilesIntro: 'Combinacions pensades per a necessitats concretes. Pots ajustar cada opció per separat a les altres pestanyes.',
+      profileNone: 'Sense perfil', profileEpilepsy: 'Sensibilitat a llampecs', profileLowVision: 'Baixa visió',
+      profileDyslexia: 'Dislèxia', profileAdhd: 'Dificultat de concentració', profileSenior: 'Persona gran',
+      profileMotor: 'Mobilitat reduïda',
+      colorBlindTitle: 'Filtre de daltonisme', cbNone: 'Cap', cbProtan: 'Protanopia', cbDeuter: 'Deuteranopia',
+      cbTritan: 'Tritanopia', cbAchroma: 'Acromatòpsia',
+      sliderContrast: 'Contrast', sliderSaturation: 'Saturació', sliderBrightness: 'Brillantor',
+      toggleInvert: 'Invertir colors', toggleGrayscale: 'Blanc i negre',
+      customColorsTitle: 'Colors personalitzats', useCustomColors: 'Activar colors propis',
+      bgColor: 'Fons', textColor: 'Text', titleColor: 'Títols',
+      textTitle: 'Ajustos de text', sliderFontSize: 'Mida de la lletra', sliderLetterSpacing: 'Espai entre lletres',
+      sliderLineHeight: 'Espai entre línies', sliderWordSpacing: 'Espai entre paraules',
+      toggleDyslexiaFont: 'Tipografia per a dislèxia', toggleAlignLeft: "Alinear text a l'esquerra",
+      readingTitle: 'Ajudes de lectura', toggleReadingGuide: 'Guia de lectura', toggleFocusMode: 'Mode focus',
+      toggleHideImages: 'Amagar imatges', toggleHighlightLinks: 'Ressaltar enllaços',
+      toggleHighlightTitles: 'Ressaltar títols', toggleMuteSounds: 'Silenciar àudio i vídeo',
+      toggleStopAnim: 'Aturar animacions', ttsLabel: 'Lectura en veu alta', ttsPlay: 'Llegir la pàgina',
+      ttsStop: 'Aturar lectura', ttsReading: 'Llegint…',
+      navTitle: 'Navegació', cursorLabel: 'Cursor', cursorNone: 'Normal', cursorBlack: 'Gran negre',
+      cursorWhite: 'Gran blanc', toggleKeyboardHelp: 'Ressaltar focus de teclat',
+      pageStructureLabel: 'Mapa de la pàgina', pageStructureEmpty: "No s'han trobat títols en aquesta pàgina.",
+      zoomLabel: 'Zoom de pàgina', zoomReset: 'Restablir zoom', creditPrefix: 'Desenvolupat per'
+    },
+    eu: {
+      title: 'Irisgarritasuna', openLabel: 'Irisgarritasun panela ireki', closeLabel: 'Itxi',
+      resetAll: 'Berrezarri guztia', language: 'Hizkuntza',
+      footer: 'Hobespenak nabigatzaile honetan gordeta',
+      tabProfiles: 'Profilak', tabColor: 'Kolorea', tabText: 'Testua', tabReading: 'Irakurketa', tabNav: 'Nabigazioa',
+      profilesIntro: 'Behar zehatzetarako konbinazioak. Aukera bakoitza beste fitxetan bereizita doitu dezakezu.',
+      profileNone: 'Profilik gabe', profileEpilepsy: 'Argi-diztirekiko sentikortasuna', profileLowVision: 'Ikusmen urria',
+      profileDyslexia: 'Dislexia', profileAdhd: 'Kontzentrazio zailtasuna', profileSenior: 'Adineko pertsona',
+      profileMotor: 'Mugikortasun urria',
+      colorBlindTitle: 'Kolore-itsutasun iragazkia', cbNone: 'Bat ere ez', cbProtan: 'Protanopia', cbDeuter: 'Deuteranopia',
+      cbTritan: 'Tritanopia', cbAchroma: 'Akromatopsia',
+      sliderContrast: 'Kontrastea', sliderSaturation: 'Saturazioa', sliderBrightness: 'Distira',
+      toggleInvert: 'Koloreak alderantzikatu', toggleGrayscale: 'Zuri-beltza',
+      customColorsTitle: 'Kolore pertsonalizatuak', useCustomColors: 'Kolore propioak aktibatu',
+      bgColor: 'Atzeko planoa', textColor: 'Testua', titleColor: 'Izenburuak',
+      textTitle: 'Testu doikuntzak', sliderFontSize: 'Letra tamaina', sliderLetterSpacing: 'Letra arteko tartea',
+      sliderLineHeight: 'Lerro arteko tartea', sliderWordSpacing: 'Hitz arteko tartea',
+      toggleDyslexiaFont: 'Dislexiarako letra-tipoa', toggleAlignLeft: 'Testua ezkerrean lerrokatu',
+      readingTitle: 'Irakurketa laguntzak', toggleReadingGuide: 'Irakurketa gida', toggleFocusMode: 'Fokatze modua',
+      toggleHideImages: 'Irudiak ezkutatu', toggleHighlightLinks: 'Estekak nabarmendu',
+      toggleHighlightTitles: 'Izenburuak nabarmendu', toggleMuteSounds: 'Audioa eta bideoa mututu',
+      toggleStopAnim: 'Animazioak gelditu', ttsLabel: 'Ozen irakurtzea', ttsPlay: 'Orria irakurri',
+      ttsStop: 'Irakurketa gelditu', ttsReading: 'Irakurtzen…',
+      navTitle: 'Nabigazioa', cursorLabel: 'Kurtsorea', cursorNone: 'Arrunta', cursorBlack: 'Handia, beltza',
+      cursorWhite: 'Handia, zuria', toggleKeyboardHelp: 'Teklatu fokua nabarmendu',
+      pageStructureLabel: 'Orriaren mapa', pageStructureEmpty: 'Ez da izenbururik aurkitu orri honetan.',
+      zoomLabel: 'Orriaren zooma', zoomReset: 'Zooma berrezarri', creditPrefix: 'Garatzailea:'
+    },
+    en: {
+      title: 'Accessibility', openLabel: 'Open accessibility panel', closeLabel: 'Close',
+      resetAll: 'Reset all', language: 'Language',
+      footer: 'Preferences saved in this browser',
+      tabProfiles: 'Profiles', tabColor: 'Color', tabText: 'Text', tabReading: 'Reading', tabNav: 'Navigation',
+      profilesIntro: 'Combinations built for specific needs. You can still adjust each option separately in the other tabs.',
+      profileNone: 'No profile', profileEpilepsy: 'Flash sensitivity', profileLowVision: 'Low vision',
+      profileDyslexia: 'Dyslexia', profileAdhd: 'Attention difficulty', profileSenior: 'Older adult',
+      profileMotor: 'Reduced mobility',
+      colorBlindTitle: 'Color blindness filter', cbNone: 'None', cbProtan: 'Protanopia', cbDeuter: 'Deuteranopia',
+      cbTritan: 'Tritanopia', cbAchroma: 'Achromatopsia',
+      sliderContrast: 'Contrast', sliderSaturation: 'Saturation', sliderBrightness: 'Brightness',
+      toggleInvert: 'Invert colors', toggleGrayscale: 'Grayscale',
+      customColorsTitle: 'Custom colors', useCustomColors: 'Enable custom colors',
+      bgColor: 'Background', textColor: 'Text', titleColor: 'Headings',
+      textTitle: 'Text settings', sliderFontSize: 'Font size', sliderLetterSpacing: 'Letter spacing',
+      sliderLineHeight: 'Line height', sliderWordSpacing: 'Word spacing',
+      toggleDyslexiaFont: 'Dyslexia-friendly font', toggleAlignLeft: 'Align text left',
+      readingTitle: 'Reading aids', toggleReadingGuide: 'Reading guide', toggleFocusMode: 'Focus mode',
+      toggleHideImages: 'Hide images', toggleHighlightLinks: 'Highlight links',
+      toggleHighlightTitles: 'Highlight headings', toggleMuteSounds: 'Mute audio and video',
+      toggleStopAnim: 'Stop animations', ttsLabel: 'Read aloud', ttsPlay: 'Read page',
+      ttsStop: 'Stop reading', ttsReading: 'Reading…',
+      navTitle: 'Navigation', cursorLabel: 'Cursor', cursorNone: 'Normal', cursorBlack: 'Large black',
+      cursorWhite: 'Large white', toggleKeyboardHelp: 'Highlight keyboard focus',
+      pageStructureLabel: 'Page map', pageStructureEmpty: 'No headings were found on this page.',
+      zoomLabel: 'Page zoom', zoomReset: 'Reset zoom', creditPrefix: 'Developed by'
+    }
+  };
+
+  /* ---------------------------------------------------------------------
+   * ESTADO
+   * ------------------------------------------------------------------- */
+  var defaultState = {
+    lang: detectLang(), activeTab: 'profiles', panelOpen: false, profile: 'none',
+    colorBlind: 'none', contrast: 100, saturation: 100, brightness: 100,
+    invert: false, grayscale: false,
+    customColorsOn: false, bgColor: '#ffffff', textColor: '#1a1a1a', titleColor: '#111111',
+    fontStep: 0, letterSpacing: 0, lineHeight: 0, wordSpacing: 0, dyslexiaFont: false, alignLeft: false,
+    readingGuide: false, focusMode: false, hideImages: false, highlightLinks: false, highlightTitles: false,
+    muteSounds: false, stopAnim: false,
+    cursor: 'none', keyboardHelp: false, zoom: 100
+  };
+
+  var state = load();
+  function load() {
+    try {
+      var raw = window.localStorage.getItem(STORAGE_KEY);
+      var merged = JSON.parse(JSON.stringify(defaultState));
+      if (!raw) return merged;
+      var parsed = JSON.parse(raw);
+      for (var k in parsed) if (merged.hasOwnProperty(k)) merged[k] = parsed[k];
+      return merged;
+    } catch (e) { return JSON.parse(JSON.stringify(defaultState)); }
+  }
+  function save() {
+    try { window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+  function t(key) {
+    var d = STRINGS[state.lang] || STRINGS.es;
+    return d[key] || STRINGS.es[key] || key;
+  }
+
+  /* ---------------------------------------------------------------------
+   * MATRICES SVG PARA SIMULACIÓN DE DALTONISMO (aproximaciones estándar)
+   * ------------------------------------------------------------------- */
+  var CB_MATRICES = {
+    protan: '0.567 0.433 0 0 0  0.558 0.442 0 0 0  0 0.242 0.758 0 0  0 0 0 1 0',
+    deuter: '0.625 0.375 0 0 0  0.7 0.3 0 0 0  0 0.3 0.7 0 0  0 0 0 1 0',
+    tritan: '0.95 0.05 0 0 0  0 0.433 0.567 0 0  0 0.475 0.525 0 0  0 0 0 1 0',
+    achroma: '0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0  0 0 0 1 0'
+  };
+
+  function injectSvgFilters() {
+    var ns = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('style', 'position:absolute;width:0;height:0;overflow:hidden;');
+    var defs = document.createElementNS(ns, 'defs');
+    Object.keys(CB_MATRICES).forEach(function (key) {
+      var filter = document.createElementNS(ns, 'filter');
+      filter.setAttribute('id', 'a11y-cb-' + key);
+      var fcm = document.createElementNS(ns, 'feColorMatrix');
+      fcm.setAttribute('type', 'matrix');
+      fcm.setAttribute('values', CB_MATRICES[key]);
+      filter.appendChild(fcm);
+      defs.appendChild(filter);
+    });
+    svg.appendChild(defs);
+    document.body.appendChild(svg);
+  }
+
+  /* ---------------------------------------------------------------------
+   * CSS
+   * ------------------------------------------------------------------- */
+  var CSS = ''
+    + ':root{--a11y-primary:' + PRIMARY_COLOR + ';}'
+    + '.a11y-widget-root, .a11y-widget-root *{box-sizing:border-box;}'
+    + '.a11y-btn{position:fixed;z-index:2147483000;width:56px;height:56px;border-radius:50%;'
+    + 'background:var(--a11y-primary);color:#fff;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.22);'
+    + 'display:flex;align-items:center;justify-content:center;transition:transform .15s ease;}'
+    + '.a11y-btn:hover{transform:translateY(-2px);}'
+    + '.a11y-btn:focus-visible{outline:3px solid #ffb020;outline-offset:2px;}'
+    + '.a11y-btn svg.a11y-icon{width:26px;height:26px;}'
+    + '.a11y-pos-bottom-right .a11y-btn{bottom:20px;right:20px;} .a11y-pos-bottom-left .a11y-btn{bottom:20px;left:20px;}'
+    + '.a11y-pos-top-right .a11y-btn{top:20px;right:20px;} .a11y-pos-top-left .a11y-btn{top:20px;left:20px;}'
+    + '.a11y-panel{position:fixed;z-index:2147483000;width:360px;max-width:94vw;max-height:82vh;'
+    + 'background:#ffffff;color:#20232a;border-radius:18px;box-shadow:0 16px 48px rgba(0,0,0,.28);'
+    + 'font-family:Arial,Helvetica,sans-serif;font-size:14.5px;line-height:1.4;overflow:hidden;'
+    + 'display:flex;flex-direction:column;transform:translateY(10px) scale(.98);opacity:0;pointer-events:none;'
+    + 'transition:opacity .16s ease,transform .16s ease;}'
+    + '.a11y-panel.a11y-panel-open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}'
+    + '.a11y-pos-bottom-right .a11y-panel{bottom:84px;right:20px;} .a11y-pos-bottom-left .a11y-panel{bottom:84px;left:20px;}'
+    + '.a11y-pos-top-right .a11y-panel{top:84px;right:20px;} .a11y-pos-top-left .a11y-panel{top:84px;left:20px;}'
+    + '.a11y-head{background:var(--a11y-primary);color:#fff;padding:12px 14px;}'
+    + '.a11y-head-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}'
+    + '.a11y-head-row h2{margin:0;font-size:16.5px;font-weight:800;color:#fff!important;}'
+    + '.a11y-close{background:rgba(255,255,255,.14);border:none;color:#fff;cursor:pointer;padding:6px;border-radius:8px;line-height:0;}'
+    + '.a11y-close:hover{background:rgba(255,255,255,.28);}'
+    + '.a11y-close:focus-visible{outline:2px solid #ffb020;}'
+    + '.a11y-close svg{width:16px;height:16px;}'
+    + '.a11y-lang-row{display:flex;gap:6px;margin-top:10px;}'
+    + '.a11y-lang-select{flex:1;padding:6px 8px;border-radius:8px;border:none;font-size:13px;background:rgba(255,255,255,.92);color:#20232a;}'
+    + '.a11y-reset-top{white-space:nowrap;background:rgba(255,255,255,.14);border:none;color:#fff;border-radius:8px;'
+    + 'padding:6px 10px;font-size:12.5px;cursor:pointer;display:flex;align-items:center;gap:5px;}'
+    + '.a11y-reset-top:hover{background:rgba(255,255,255,.28);}'
+    + '.a11y-reset-top svg{width:13px;height:13px;}'
+    + '.a11y-tabs{display:flex;background:#f2f4f7;border-bottom:1px solid #e3e6eb;flex-shrink:0;overflow-x:auto;}'
+    + '.a11y-tab{flex:1;min-width:64px;background:transparent;border:none;padding:9px 4px 8px;cursor:pointer;'
+    + 'display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;color:#5b6270;border-bottom:3px solid transparent;}'
+    + '.a11y-tab svg{width:19px;height:19px;}'
+    + '.a11y-tab.a11y-tab-active{color:var(--a11y-primary);border-bottom-color:var(--a11y-primary);background:#fff;font-weight:700;}'
+    + '.a11y-tab:focus-visible{outline:2px solid var(--a11y-primary);outline-offset:-2px;}'
+    + '.a11y-panel-scroll{overflow-y:auto;padding:14px;flex:1;}'
+    + '.a11y-section-title{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:#8a8f99;'
+    + 'font-weight:800;margin:0 0 8px;}'
+    + '.a11y-hint{font-size:12px;color:#6b7280;margin:0 0 12px;}'
+    + '.a11y-grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}'
+    + '.a11y-pill{display:flex;align-items:center;gap:8px;padding:9px 10px;border:1.5px solid #e1e4ea;border-radius:11px;'
+    + 'background:#fafbfc;cursor:pointer;font-size:12.5px;color:#20232a;text-align:left;}'
+    + '.a11y-pill svg{width:18px;height:18px;flex-shrink:0;color:#5b6270;}'
+    + '.a11y-pill:hover{border-color:var(--a11y-primary);}'
+    + '.a11y-pill.a11y-active{border-color:var(--a11y-primary);background:color-mix(in srgb, var(--a11y-primary) 10%, white);}'
+    + '.a11y-pill.a11y-active svg{color:var(--a11y-primary);}'
+    + '.a11y-pill:focus-visible{outline:2px solid var(--a11y-primary);outline-offset:1px;}'
+    + '.a11y-slider-block{margin-bottom:14px;}'
+    + '.a11y-slider-label{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;font-weight:600;}'
+    + '.a11y-slider-label span.a11y-val{font-weight:400;color:#6b7280;}'
+    + '.a11y-slider-block input[type=range]{width:100%;accent-color:var(--a11y-primary);}'
+    + '.a11y-color-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;font-size:12.5px;}'
+    + '.a11y-color-row input[type=color]{width:34px;height:26px;border:1px solid #ddd;border-radius:6px;padding:0;background:none;cursor:pointer;}'
+    + '.a11y-switch-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid #eef0f3;font-size:13px;}'
+    + '.a11y-switch-row:last-child{border-bottom:none;}'
+    + '.a11y-switch{position:relative;width:40px;height:22px;flex-shrink:0;}'
+    + '.a11y-switch input{opacity:0;width:100%;height:100%;margin:0;position:absolute;cursor:pointer;}'
+    + '.a11y-switch-track{position:absolute;inset:0;background:#d7dbe2;border-radius:20px;transition:background .15s;}'
+    + '.a11y-switch-thumb{position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;'
+    + 'box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .15s;}'
+    + '.a11y-switch input:checked ~ .a11y-switch-track{background:var(--a11y-primary);}'
+    + '.a11y-switch input:checked ~ .a11y-switch-thumb{transform:translateX(18px);}'
+    + '.a11y-switch input:focus-visible ~ .a11y-switch-track{outline:2px solid var(--a11y-primary);outline-offset:2px;}'
+    + '.a11y-btn-block{width:100%;padding:10px;border-radius:10px;border:1.5px solid var(--a11y-primary);'
+    + 'background:#fff;color:var(--a11y-primary);font-weight:700;cursor:pointer;font-size:13px;margin-top:4px;'
+    + 'display:flex;align-items:center;justify-content:center;gap:7px;}'
+    + '.a11y-btn-block:hover{background:var(--a11y-primary);color:#fff;}'
+    + '.a11y-btn-block svg{width:16px;height:16px;}'
+    + '.a11y-structure-list{list-style:none;margin:0;padding:0;max-height:180px;overflow-y:auto;border:1px solid #e1e4ea;border-radius:10px;}'
+    + '.a11y-structure-list li{border-bottom:1px solid #eef0f3;}'
+    + '.a11y-structure-list li:last-child{border-bottom:none;}'
+    + '.a11y-structure-list button{width:100%;text-align:left;background:none;border:none;padding:7px 10px;'
+    + 'font-size:12px;cursor:pointer;color:#20232a;}'
+    + '.a11y-structure-list button:hover{background:#f2f4f7;}'
+    + '.a11y-panel-footer{padding:8px 14px 12px;font-size:10.5px;color:#9aa0aa;text-align:center;flex-shrink:0;}'
+    + '.a11y-panel-footer a{color:var(--a11y-primary);text-decoration:none;font-weight:700;}'
+    + '.a11y-panel-footer a:hover{text-decoration:underline;}'
+    /* ---- efectos sobre la página ---- */
+    + 'html.a11y-dyslexia-font, html.a11y-dyslexia-font body{font-family:"Comic Sans MS",Verdana,Arial,sans-serif!important;}'
+    + 'html.a11y-align-left, html.a11y-align-left body *{text-align:left!important;}'
+    + 'html.a11y-highlight-links a{background:#fff3a0!important;color:#000!important;box-shadow:0 0 0 2px #fff3a0;}'
+    + 'html.a11y-highlight-titles h1,html.a11y-highlight-titles h2,html.a11y-highlight-titles h3,'
+    + 'html.a11y-highlight-titles h4,html.a11y-highlight-titles h5,html.a11y-highlight-titles h6{'
+    + 'background:#dcecff!important;color:#0a3d78!important;padding:.12em .3em!important;border-radius:4px;}'
+    + 'html.a11y-hide-images img,html.a11y-hide-images picture,html.a11y-hide-images video{visibility:hidden!important;}'
+    + 'html.a11y-stop-anim *, html.a11y-stop-anim *::before, html.a11y-stop-anim *::after{'
+    + 'animation-play-state:paused!important;transition:none!important;scroll-behavior:auto!important;}'
+    + 'html.a11y-cursor-black,html.a11y-cursor-black *{cursor:'
+    + "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"42\" height=\"42\" viewBox=\"0 0 24 24\"><path d=\"M4 2l14 8-6 2-2 6z\" fill=\"black\" stroke=\"white\" stroke-width=\"1.4\"/></svg>') 4 4,auto!important;}"
+    + 'html.a11y-cursor-white,html.a11y-cursor-white *{cursor:'
+    + "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"42\" height=\"42\" viewBox=\"0 0 24 24\"><path d=\"M4 2l14 8-6 2-2 6z\" fill=\"white\" stroke=\"black\" stroke-width=\"1.4\"/></svg>') 4 4,auto!important;}"
+    + 'html.a11y-kbnav *:focus{outline:3px solid #ff5a1f!important;outline-offset:2px!important;}'
+    + '.a11y-overlay{position:fixed;left:0;width:100%;pointer-events:none;background:rgba(10,10,15,.55);'
+    + 'z-index:2147482999;transition:height .04s linear;}'
+    + '.a11y-focus-overlay{position:fixed;inset:0;pointer-events:none;z-index:2147482999;background:rgba(10,10,15,.72);}'
+    + '.a11y-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}'
+    + '@media (max-width:480px){.a11y-panel{width:90vw;}}';
+
+  function injectCSS() {
+    var style = document.createElement('style');
+    style.id = 'a11y-widget-styles';
+    style.textContent = CSS;
+    document.head.appendChild(style);
+  }
+
+  /* ---------------------------------------------------------------------
+   * ICONOS
+   * ------------------------------------------------------------------- */
+  function icon(path, viewBox) {
+    return '<svg class="a11y-icon" viewBox="' + (viewBox || '0 0 24 24') + '" fill="none" stroke="currentColor" ' +
+      'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + path + '</svg>';
+  }
+  var ICONS = {
+    main: '<svg class="a11y-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+      + '<circle cx="12" cy="12" r="9.5"/>'
+      + '<circle cx="12" cy="6.9" r="1.35" fill="currentColor" stroke="none"/>'
+      + '<path d="M6.4 10.2h11.2"/>'
+      + '<path d="M12 9.6v4.2"/>'
+      + '<path d="M12 13.8 9.2 18M12 13.8 14.8 18"/>'
+      + '</svg>',
+    close: icon('<path d="M18 6 6 18M6 6l12 12"/>'),
+    reset: icon('<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v6h6"/>'),
+    profiles: icon('<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M14.5 14.2c2.6.4 4.5 2.5 4.5 5.3"/>'),
+    color: icon('<path d="M12 3c3 3.5 6 7.2 6 10.5A6 6 0 0 1 6 13.5C6 10.2 9 6.5 12 3z"/>'),
+    text: icon('<path d="M5 6h14M8 6v13M8 19h0M12 10h7M12 14h5"/>'),
+    reading: icon('<path d="M4 5.5S6 4 9 4s5 1.5 5 1.5v14S12 18 9 18s-5 1.5-5 1.5z"/><path d="M14 5.5S16 4 19 4s1 1.5 1 1.5v14s-3-1.5-6-1.5" transform="translate(0)"/>'),
+    nav: icon('<path d="M4 2l7 17 2.3-6.7L20 10z"/>'),
+    epilepsy: icon('<path d="M13 2 4 14h6l-1 8 9-12h-6z"/>'),
+    lowVision: icon('<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.6"/>'),
+    dyslexia: icon('<path d="M6 4h6a4 4 0 0 1 0 8H6z"/><path d="M6 12h7a4 4 0 0 1 0 8H6z"/>', '0 0 24 24'),
+    adhd: icon('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>'),
+    senior: icon('<circle cx="12" cy="7" r="3.2"/><path d="M5 21c0-3.6 3.1-6.5 7-6.5s7 2.9 7 6.5"/><path d="M9 14.5 8 21M15 14.5l1 6.5"/>'),
+    motor: icon('<circle cx="6" cy="6" r="2"/><path d="M6 9v5l4 2M6 14l-3 6M10 16l5 1 3 5"/><circle cx="15" cy="20" r="2"/>'),
+    none: icon('<circle cx="12" cy="12" r="9"/><path d="M8 8l8 8"/>'),
+    contrast: icon('<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/>'),
+    invert: icon('<circle cx="12" cy="12" r="9"/><path d="M12 3v18M6 6l12 12"/>'),
+    grayscale: icon('<circle cx="9" cy="9" r="4"/><circle cx="16" cy="16" r="4"/>'),
+    plus: icon('<path d="M12 5v14M5 12h14"/>'),
+    minus: icon('<path d="M5 12h14"/>'),
+    guide: icon('<path d="M3 8h18M3 12h18M3 16h10"/>'),
+    focus: icon('<circle cx="12" cy="12" r="3"/><path d="M3 7V4h3M21 7V4h-3M3 17v3h3M21 17v3h-3"/>'),
+    hideImg: icon('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6M3 3l18 18" />'),
+    link: icon('<path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>'),
+    title: icon('<path d="M4 6h16M4 12h10M4 18h7"/>'),
+    mute: icon('<path d="M11 5 6 9H3v6h3l5 4z"/><path d="M16 8l6 8M22 8l-6 8"/>'),
+    stop: icon('<rect x="6" y="6" width="12" height="12" rx="2"/>'),
+    speak: icon('<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 8a5 5 0 0 1 0 8M19.5 5.5a9 9 0 0 1 0 13"/>'),
+    speakStop: icon('<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M21 9l-6 6M15 9l6 6"/>'),
+    cursor: icon('<path d="M4 3l7 16 2-6.5L19 10z"/>'),
+    keyboard: icon('<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/>'),
+    map: icon('<path d="M9 4 4 6v14l5-2 6 2 5-2V4l-5 2-6-2z"/><path d="M9 4v14M15 6v14"/>'),
+    zoom: icon('<circle cx="10" cy="10" r="6.5"/><path d="M20 20l-5-5M8 10h4"/>'),
+    check: icon('<path d="M20 6 9 17l-5-5"/>')
+  };
+
+  /* ---------------------------------------------------------------------
+   * PRESETS DE PERFILES
+   * ------------------------------------------------------------------- */
+  var PROFILE_PRESETS = {
+    none: {},
+    epilepsy: { stopAnim: true, saturation: 80, brightness: 95, invert: false },
+    lowVision: { fontStep: 3, contrast: 130, cursor: 'black', lineHeight: 1 },
+    dyslexia: { dyslexiaFont: true, letterSpacing: 1, lineHeight: 2, readingGuide: true, alignLeft: true },
+    adhd: { focusMode: true, stopAnim: true, hideImages: false },
+    senior: { fontStep: 3, cursor: 'black', contrast: 115, keyboardHelp: true },
+    motor: { keyboardHelp: true, cursor: 'black', stopAnim: true }
+  };
+
+  function applyProfile(name) {
+    state.profile = name;
+    // Antes de aplicar, volvemos a valores por defecto de las propiedades que tocan los perfiles,
+    // para que cambiar de perfil no vaya acumulando ajustes de perfiles anteriores.
+    var touched = ['stopAnim', 'saturation', 'brightness', 'invert', 'fontStep', 'contrast', 'cursor',
+      'lineHeight', 'dyslexiaFont', 'letterSpacing', 'readingGuide', 'alignLeft', 'focusMode', 'keyboardHelp'];
+    touched.forEach(function (k) { state[k] = defaultState[k]; });
+    var preset = PROFILE_PRESETS[name] || {};
+    Object.keys(preset).forEach(function (k) { state[k] = preset[k]; });
+  }
+
+  /* ---------------------------------------------------------------------
+   * DOM / RUNTIME REFS
+   * ------------------------------------------------------------------- */
+  var root, btn, panel, panelScroll, tabsBar;
+  var guideTop, guideBottom, focusOverlay;
+  var mouseMoveBound = false;
+  var speaking = false;
+
+  function el(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  }
+
+  function switchRow(labelKey, key, onChange) {
+    var row = el('div', 'a11y-switch-row');
+    var span = el('span', null, t(labelKey));
+    var label = el('label', 'a11y-switch');
+    var input = document.createElement('input');
+    input.type = 'checkbox';
+    input.checked = !!state[key];
+    input.setAttribute('aria-label', t(labelKey));
+    input.addEventListener('change', function () {
+      state[key] = input.checked;
+      onChange ? onChange(input.checked) : applyState();
+      save();
+    });
+    label.appendChild(input);
+    label.appendChild(el('span', 'a11y-switch-track'));
+    label.appendChild(el('span', 'a11y-switch-thumb'));
+    row.appendChild(span);
+    row.appendChild(label);
+    return row;
+  }
+
+  function sliderBlock(labelKey, key, min, max, step, unit, onChange) {
+    var wrap = el('div', 'a11y-slider-block');
+    var labelRow = el('div', 'a11y-slider-label');
+    var name = el('span', null, t(labelKey));
+    var val = el('span', 'a11y-val', state[key] + (unit || ''));
+    labelRow.appendChild(name);
+    labelRow.appendChild(val);
+    var input = document.createElement('input');
+    input.type = 'range';
+    input.min = min; input.max = max; input.step = step; input.value = state[key];
+    input.setAttribute('aria-label', t(labelKey));
+    input.addEventListener('input', function () {
+      state[key] = parseFloat(input.value);
+      val.textContent = state[key] + (unit || '');
+      onChange ? onChange(state[key]) : applyState();
+      save();
+    });
+    wrap.appendChild(labelRow);
+    wrap.appendChild(input);
+    return wrap;
+  }
+
+  function pillButton(labelKey, iconSvg, active, onClick) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'a11y-pill' + (active ? ' a11y-active' : '');
+    b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    b.innerHTML = iconSvg + '<span>' + t(labelKey) + '</span>';
+    b.addEventListener('click', onClick);
+    return b;
+  }
+
+  /* ---------------------------------------------------------------------
+   * RENDER DE PESTAÑAS
+   * ------------------------------------------------------------------- */
+  function renderProfilesTab(container) {
+    container.appendChild(el('p', 'a11y-hint', t('profilesIntro')));
+    var grid = el('div', 'a11y-grid2');
+    var items = [
+      ['none', 'profileNone', ICONS.none], ['epilepsy', 'profileEpilepsy', ICONS.epilepsy],
+      ['lowVision', 'profileLowVision', ICONS.lowVision], ['dyslexia', 'profileDyslexia', ICONS.dyslexia],
+      ['adhd', 'profileAdhd', ICONS.adhd], ['senior', 'profileSenior', ICONS.senior],
+      ['motor', 'profileMotor', ICONS.motor]
+    ];
+    items.forEach(function (it) {
+      grid.appendChild(pillButton(it[1], it[2], state.profile === it[0], function () {
+        applyProfile(it[0]);
+        applyState();
+        save();
+        renderActiveTab();
+      }));
+    });
+    container.appendChild(grid);
+  }
+
+  function renderColorTab(container) {
+    container.appendChild(el('div', 'a11y-section-title', t('colorBlindTitle')));
+    var grid = el('div', 'a11y-grid2');
+    var cbItems = [
+      ['none', 'cbNone', ICONS.none], ['protan', 'cbProtan', ICONS.color], ['deuter', 'cbDeuter', ICONS.color],
+      ['tritan', 'cbTritan', ICONS.color], ['achroma', 'cbAchroma', ICONS.grayscale]
+    ];
+    cbItems.forEach(function (it) {
+      grid.appendChild(pillButton(it[1], it[2], state.colorBlind === it[0], function () {
+        state.colorBlind = it[0];
+        applyState(); save(); renderActiveTab();
+      }));
+    });
+    container.appendChild(grid);
+
+    container.appendChild(sliderBlock('sliderContrast', 'contrast', 50, 180, 5, '%'));
+    container.appendChild(sliderBlock('sliderSaturation', 'saturation', 0, 200, 5, '%'));
+    container.appendChild(sliderBlock('sliderBrightness', 'brightness', 60, 150, 5, '%'));
+    container.appendChild(switchRow('toggleInvert', 'invert'));
+    container.appendChild(switchRow('toggleGrayscale', 'grayscale'));
+
+    container.appendChild(el('div', 'a11y-section-title', t('customColorsTitle')));
+    container.appendChild(switchRow('useCustomColors', 'customColorsOn'));
+    [['bgColor', 'bgColor'], ['textColor', 'textColor'], ['titleColor', 'titleColor']].forEach(function (pair) {
+      var row = el('div', 'a11y-color-row');
+      row.appendChild(el('span', null, t(pair[0])));
+      var input = document.createElement('input');
+      input.type = 'color';
+      input.value = state[pair[1]];
+      input.addEventListener('input', function () {
+        state[pair[1]] = input.value;
+        applyState(); save();
+      });
+      row.appendChild(input);
+      container.appendChild(row);
+    });
+  }
+
+  function renderTextTab(container) {
+    container.appendChild(el('div', 'a11y-section-title', t('textTitle')));
+    container.appendChild(sliderBlock('sliderFontSize', 'fontStep', -2, 6, 1, '', function () { applyState(); }));
+    container.appendChild(sliderBlock('sliderLetterSpacing', 'letterSpacing', 0, 3, 1));
+    container.appendChild(sliderBlock('sliderLineHeight', 'lineHeight', 0, 3, 1));
+    container.appendChild(sliderBlock('sliderWordSpacing', 'wordSpacing', 0, 3, 1));
+    container.appendChild(switchRow('toggleDyslexiaFont', 'dyslexiaFont'));
+    container.appendChild(switchRow('toggleAlignLeft', 'alignLeft'));
+  }
+
+  function renderReadingTab(container) {
+    container.appendChild(el('div', 'a11y-section-title', t('readingTitle')));
+    container.appendChild(switchRow('toggleReadingGuide', 'readingGuide'));
+    container.appendChild(switchRow('toggleFocusMode', 'focusMode'));
+    container.appendChild(switchRow('toggleHideImages', 'hideImages'));
+    container.appendChild(switchRow('toggleHighlightLinks', 'highlightLinks'));
+    container.appendChild(switchRow('toggleHighlightTitles', 'highlightTitles'));
+    container.appendChild(switchRow('toggleMuteSounds', 'muteSounds'));
+    container.appendChild(switchRow('toggleStopAnim', 'stopAnim'));
+
+    container.appendChild(el('div', 'a11y-section-title', t('ttsLabel')));
+    var ttsBtn = document.createElement('button');
+    ttsBtn.type = 'button';
+    ttsBtn.className = 'a11y-btn-block';
+    function paintTtsBtn() {
+      ttsBtn.innerHTML = (speaking ? ICONS.speakStop : ICONS.speak) + '<span>' +
+        (speaking ? t('ttsStop') : t('ttsPlay')) + '</span>';
+    }
+    paintTtsBtn();
+    ttsBtn.addEventListener('click', function () {
+      if (speaking) { stopSpeech(); } else { speakPage(); }
+      paintTtsBtn();
+    });
+    container.appendChild(ttsBtn);
+  }
+
+  function renderNavTab(container) {
+    container.appendChild(el('div', 'a11y-section-title', t('cursorLabel')));
+    var grid = el('div', 'a11y-grid2');
+    [['none', 'cursorNone', ICONS.none], ['black', 'cursorBlack', ICONS.cursor], ['white', 'cursorWhite', ICONS.cursor]]
+      .forEach(function (it) {
+        grid.appendChild(pillButton(it[1], it[2], state.cursor === it[0], function () {
+          state.cursor = it[0]; applyState(); save(); renderActiveTab();
+        }));
+      });
+    container.appendChild(grid);
+
+    container.appendChild(switchRow('toggleKeyboardHelp', 'keyboardHelp'));
+
+    container.appendChild(el('div', 'a11y-section-title', t('zoomLabel')));
+    container.appendChild(sliderBlock('zoomLabel', 'zoom', 80, 160, 10, '%'));
+
+    container.appendChild(el('div', 'a11y-section-title', t('pageStructureLabel')));
+    var list = buildPageStructure();
+    container.appendChild(list);
+  }
+
+  function buildPageStructure() {
+    var ul = el('ul', 'a11y-structure-list');
+    var heads = [];
+    try {
+      heads = Array.prototype.slice.call(document.querySelectorAll('h1,h2,h3,h4,h5,h6'))
+        .filter(function (h) { return !root.contains(h) && h.offsetParent !== null; });
+    } catch (e) {}
+    if (!heads.length) {
+      var li = el('li', null, '');
+      li.innerHTML = '<span style="display:block;padding:8px 10px;color:#8a8f99;font-size:12px;">' + t('pageStructureEmpty') + '</span>';
+      ul.appendChild(li);
+      return ul;
+    }
+    heads.forEach(function (h) {
+      var li = document.createElement('li');
+      var b = document.createElement('button');
+      var level = parseInt(h.tagName.substring(1), 10);
+      b.style.paddingLeft = 10 + (level - 1) * 12 + 'px';
+      b.textContent = (h.textContent || '').trim().slice(0, 60) || h.tagName;
+      b.addEventListener('click', function () {
+        h.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        h.setAttribute('tabindex', '-1');
+        h.focus({ preventScroll: true });
+      });
+      li.appendChild(b);
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+
+  var TABS = [
+    ['profiles', 'tabProfiles', ICONS.profiles, renderProfilesTab],
+    ['color', 'tabColor', ICONS.color, renderColorTab],
+    ['text', 'tabText', ICONS.text, renderTextTab],
+    ['reading', 'tabReading', ICONS.reading, renderReadingTab],
+    ['nav', 'tabNav', ICONS.nav, renderNavTab]
+  ];
+
+  function renderActiveTab() {
+    panelScroll.innerHTML = '';
+    var tabDef = TABS.filter(function (tb) { return tb[0] === state.activeTab; })[0] || TABS[0];
+    tabDef[3](panelScroll);
+    Array.prototype.forEach.call(tabsBar.children, function (btnEl, i) {
+      var active = TABS[i][0] === state.activeTab;
+      btnEl.classList.toggle('a11y-tab-active', active);
+      btnEl.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+  }
+
+  /* ---------------------------------------------------------------------
+   * PANEL PRINCIPAL
+   * ------------------------------------------------------------------- */
+  function footerHTML() {
+    var credit = '';
+    if (CREDIT_NAME) {
+      credit = '<br>' + t('creditPrefix') + ' ' +
+        '<a href="' + CREDIT_URL + '" target="_blank" rel="noopener noreferrer">' + CREDIT_NAME + '</a>';
+    }
+    return t('footer') + credit;
+  }
+
+  function buildPanel() {
+    panel = el('div', 'a11y-panel');
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-labelledby', 'a11y-panel-title');
+
+    var head = el('div', 'a11y-head');
+    var row1 = el('div', 'a11y-head-row');
+    row1.appendChild(el('h2', null, t('title')));
+    var closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'a11y-close';
+    closeBtn.innerHTML = ICONS.close + '<span class="a11y-sr-only">' + t('closeLabel') + '</span>';
+    closeBtn.addEventListener('click', function () { togglePanel(false); btn.focus(); });
+    row1.appendChild(closeBtn);
+    head.appendChild(row1);
+
+    var row2 = el('div', 'a11y-lang-row');
+    var select = document.createElement('select');
+    select.className = 'a11y-lang-select';
+    select.setAttribute('aria-label', t('language'));
+    SUPPORTED_LANGS.forEach(function (code) {
+      var opt = document.createElement('option');
+      opt.value = code; opt.textContent = LANG_NAMES[code];
+      if (code === state.lang) opt.selected = true;
+      select.appendChild(opt);
+    });
+    select.addEventListener('change', function () {
+      state.lang = select.value; save(); rebuildAllTexts();
+    });
+    var resetBtn = document.createElement('button');
+    resetBtn.type = 'button';
+    resetBtn.className = 'a11y-reset-top';
+    resetBtn.innerHTML = ICONS.reset + '<span>' + t('resetAll') + '</span>';
+    resetBtn.addEventListener('click', function () {
+      var lang = state.lang;
+      state = JSON.parse(JSON.stringify(defaultState));
+      state.lang = lang;
+      state.panelOpen = true;
+      applyState(); save(); rebuildAllTexts();
+    });
+    row2.appendChild(select);
+    row2.appendChild(resetBtn);
+    head.appendChild(row2);
+    panel.appendChild(head);
+
+    tabsBar = el('div', 'a11y-tabs');
+    tabsBar.setAttribute('role', 'tablist');
+    TABS.forEach(function (tb) {
+      var tabBtn = document.createElement('button');
+      tabBtn.type = 'button';
+      tabBtn.className = 'a11y-tab';
+      tabBtn.setAttribute('role', 'tab');
+      tabBtn.innerHTML = tb[2] + '<span>' + t(tb[1]) + '</span>';
+      tabBtn.addEventListener('click', function () {
+        state.activeTab = tb[0]; save(); renderActiveTab();
+      });
+      tabsBar.appendChild(tabBtn);
+    });
+    panel.appendChild(tabsBar);
+
+    panelScroll = el('div', 'a11y-panel-scroll');
+    panel.appendChild(panelScroll);
+
+    var footer = el('div', 'a11y-panel-footer', footerHTML());
+    panel.appendChild(footer);
+
+    renderActiveTab();
+    return panel;
+  }
+
+  function rebuildAllTexts() {
+    panel.querySelector('#a11y-panel-title') || null;
+    panel.querySelector('.a11y-head-row h2').textContent = t('title');
+    panel.querySelector('.a11y-close').innerHTML = ICONS.close + '<span class="a11y-sr-only">' + t('closeLabel') + '</span>';
+    panel.querySelector('.a11y-reset-top').innerHTML = ICONS.reset + '<span>' + t('resetAll') + '</span>';
+    panel.querySelector('.a11y-panel-footer').innerHTML = footerHTML();
+    Array.prototype.forEach.call(tabsBar.children, function (tabBtn, i) {
+      tabBtn.innerHTML = TABS[i][2] + '<span>' + t(TABS[i][1]) + '</span>';
+    });
+    btn.setAttribute('aria-label', t('openLabel'));
+    renderActiveTab();
+  }
+
+  function togglePanel(force) {
+    state.panelOpen = typeof force === 'boolean' ? force : !state.panelOpen;
+    panel.classList.toggle('a11y-panel-open', state.panelOpen);
+    btn.setAttribute('aria-expanded', state.panelOpen ? 'true' : 'false');
+    save();
+    if (state.panelOpen) {
+      var f = panelScroll.querySelector('button, input, select');
+      if (f) f.focus();
+    }
+  }
+
+  function buildButton() {
+    btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'a11y-btn';
+    btn.setAttribute('aria-haspopup', 'dialog');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', t('openLabel'));
+    btn.innerHTML = ICONS.main;
+    btn.addEventListener('click', function () { togglePanel(); });
+    return btn;
+  }
+
+  /* ---------------------------------------------------------------------
+   * OVERLAYS: GUÍA DE LECTURA / MODO FOCO
+   * ------------------------------------------------------------------- */
+  function ensureOverlays() {
+    if (!guideTop) {
+      guideTop = el('div', 'a11y-overlay'); guideTop.style.top = '0';
+      guideBottom = el('div', 'a11y-overlay'); guideBottom.style.bottom = '0';
+      focusOverlay = el('div', 'a11y-focus-overlay');
+      document.body.appendChild(guideTop);
+      document.body.appendChild(guideBottom);
+      document.body.appendChild(focusOverlay);
+    }
+    if (!mouseMoveBound) {
+      document.addEventListener('mousemove', onMouseMoveOverlay);
+      mouseMoveBound = true;
+    }
+  }
+
+  function onMouseMoveOverlay(e) {
+    if (state.readingGuide) {
+      var band = 42;
+      guideTop.style.display = 'block';
+      guideBottom.style.display = 'block';
+      guideTop.style.height = Math.max(0, e.clientY - band) + 'px';
+      guideBottom.style.height = Math.max(0, window.innerHeight - e.clientY - band) + 'px';
+    } else {
+      guideTop.style.display = 'none';
+      guideBottom.style.display = 'none';
+    }
+    if (state.focusMode) {
+      focusOverlay.style.display = 'block';
+      focusOverlay.style.background =
+        'radial-gradient(circle 160px at ' + e.clientX + 'px ' + e.clientY + 'px, transparent 0%, rgba(10,10,15,.75) 160px)';
+    } else {
+      focusOverlay.style.display = 'none';
+    }
+  }
+
+  /* ---------------------------------------------------------------------
+   * SONIDO Y TTS
+   * ------------------------------------------------------------------- */
+  function applyMuteSounds() {
+    var els = document.querySelectorAll('audio, video');
+    els.forEach ? els.forEach(setMute) : Array.prototype.forEach.call(els, setMute);
+    function setMute(m) { m.muted = state.muteSounds; if (state.muteSounds) m.pause(); }
+  }
+
+  function speakPage() {
+    if (!('speechSynthesis' in window)) return;
+    var clone = document.body.cloneNode(true);
+    var widgetClone = clone.querySelector('.a11y-widget-root');
+    if (widgetClone) widgetClone.parentNode.removeChild(widgetClone);
+    var text = (clone.innerText || clone.textContent || '').trim().slice(0, 6000);
+    if (!text) return;
+    window.speechSynthesis.cancel();
+    var utter = new SpeechSynthesisUtterance(text);
+    utter.lang = SPEECH_LANG[state.lang] || 'es-ES';
+    utter.onend = function () { speaking = false; renderActiveTab(); };
+    utter.onerror = function () { speaking = false; renderActiveTab(); };
+    speaking = true;
+    window.speechSynthesis.speak(utter);
+  }
+
+  function stopSpeech() {
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    speaking = false;
+  }
+
+  /* ---------------------------------------------------------------------
+   * APLICAR ESTADO
+   * ------------------------------------------------------------------- */
+  function setClass(elm, cls, on) { elm.classList.toggle(cls, !!on); }
+
+  function applyState() {
+    var html = document.documentElement;
+
+    // tamaño de fuente
+    html.style.fontSize = 100 + state.fontStep * 10 + '%';
+
+    // espaciados
+    injectDynamicVars();
+
+    // fuente / alineación
+    setClass(html, 'a11y-dyslexia-font', state.dyslexiaFont);
+    setClass(html, 'a11y-align-left', state.alignLeft);
+
+    // contenido
+    setClass(html, 'a11y-hide-images', state.hideImages);
+    setClass(html, 'a11y-highlight-links', state.highlightLinks);
+    setClass(html, 'a11y-highlight-titles', state.highlightTitles);
+    setClass(html, 'a11y-stop-anim', state.stopAnim);
+
+    // cursor
+    setClass(html, 'a11y-cursor-black', state.cursor === 'black');
+    setClass(html, 'a11y-cursor-white', state.cursor === 'white');
+
+    // teclado
+    setClass(html, 'a11y-kbnav', state.keyboardHelp);
+
+    // filtros combinados de color
+    var filters = [];
+    if (state.colorBlind !== 'none') filters.push('url(#a11y-cb-' + state.colorBlind + ')');
+    filters.push('contrast(' + state.contrast + '%)');
+    filters.push('saturate(' + state.saturation + '%)');
+    filters.push('brightness(' + state.brightness + '%)');
+    if (state.grayscale) filters.push('grayscale(1)');
+    if (state.invert) filters.push('invert(1) hue-rotate(180deg)');
+    html.style.filter = filters.join(' ');
+
+    // zoom
+    html.style.zoom = state.zoom !== 100 ? state.zoom + '%' : '';
+
+    // colores personalizados
+    applyCustomColors();
+
+    // overlays de lectura / foco
+    ensureOverlays();
+    if (!state.readingGuide) { if (guideTop) { guideTop.style.display = 'none'; guideBottom.style.display = 'none'; } }
+    if (!state.focusMode) { if (focusOverlay) focusOverlay.style.display = 'none'; }
+
+    // sonido
+    applyMuteSounds();
+  }
+
+  var dynamicStyleEl = null;
+  function injectDynamicVars() {
+    if (!dynamicStyleEl) {
+      dynamicStyleEl = document.createElement('style');
+      dynamicStyleEl.id = 'a11y-widget-dynamic';
+      document.head.appendChild(dynamicStyleEl);
+    }
+    var ls = state.letterSpacing * 0.05;
+    var wsp = state.wordSpacing * 0.12;
+    var lh = 1.4 + state.lineHeight * 0.25;
+    dynamicStyleEl.textContent =
+      'html body, html body *{' +
+      (state.letterSpacing ? 'letter-spacing:' + ls + 'em!important;' : '') +
+      (state.wordSpacing ? 'word-spacing:' + wsp + 'em!important;' : '') +
+      (state.lineHeight ? 'line-height:' + lh + '!important;' : '') +
+      '}';
+  }
+
+  var customColorStyleEl = null;
+  function applyCustomColors() {
+    if (!customColorStyleEl) {
+      customColorStyleEl = document.createElement('style');
+      customColorStyleEl.id = 'a11y-widget-customcolors';
+      document.head.appendChild(customColorStyleEl);
+    }
+    if (!state.customColorsOn) { customColorStyleEl.textContent = ''; return; }
+    customColorStyleEl.textContent =
+      'html body{background:' + state.bgColor + '!important;}' +
+      'html body *:not(.a11y-widget-root):not(.a11y-widget-root *){color:' + state.textColor + '!important;}' +
+      'html h1:not(.a11y-widget-root *),html h2:not(.a11y-widget-root *),html h3:not(.a11y-widget-root *),' +
+      'html h4:not(.a11y-widget-root *),html h5:not(.a11y-widget-root *),html h6:not(.a11y-widget-root *)' +
+      '{color:' + state.titleColor + '!important;}';
+  }
+
+  /* ---------------------------------------------------------------------
+   * INIT
+   * ------------------------------------------------------------------- */
+  function init() {
+    injectCSS();
+
+    root = el('div', 'a11y-widget-root a11y-pos-' + POSITION);
+    root.appendChild(buildButton());
+    root.appendChild(buildPanel());
+    document.body.appendChild(root);
+
+    injectSvgFilters();
+
+    applyState();
+    if (state.panelOpen) togglePanel(true);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && state.panelOpen) { togglePanel(false); btn.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (!state.panelOpen) return;
+      if (root.contains(e.target)) return;
+      togglePanel(false);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
