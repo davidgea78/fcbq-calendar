@@ -30,6 +30,13 @@ with sync_playwright() as p:
         headless=False
     )
     page = context.new_page()
+    page.set_viewport_size({
+        "width": 1920,
+        "height": 1080
+    })
+    page.set_extra_http_headers({
+        "Accept-Language": "ca-ES,ca;q=0.9,es;q=0.8"
+    })
     os.makedirs(
         "docs",
         exist_ok=True

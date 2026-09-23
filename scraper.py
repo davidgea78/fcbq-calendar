@@ -8,7 +8,7 @@ def get_competitions(page, team_id):
         f"https://www.basquetcatala.cat/equip/{team_id}"
     )
 
-    page.wait_for_timeout(5000)
+    page.wait_for_timeout(10000)
 
     html = page.content()
     if "Verificació de seguretat" in html:
@@ -63,7 +63,7 @@ def get_match_details(page, match_id):
         f"https://www.basquetcatala.cat/partits/llistatpartits/{match_id}"
     )
 
-    page.wait_for_timeout(3000)
+    page.wait_for_timeout(5000)
 
     html = page.content()
     if "Verificació de seguretat" in html:
