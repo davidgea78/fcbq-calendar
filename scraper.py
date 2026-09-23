@@ -11,9 +11,15 @@ def get_competitions(page, team_id):
     page.wait_for_timeout(10000)
 
     html = page.content()
+    with open(
+            "debug_competitions.html",
+            "w",
+            encoding="utf-8"
+    ) as f:
+        f.write(html)
     if "Verificació de seguretat" in html:
-        raise Exception(
-            "FCBQ ha retornat un reCAPTCHA"
+        print(
+            "RECAPTCHA detectat"
         )
     if "Verificació de seguretat" in html:
         print("RECAPTCHA A EQUIP")
@@ -36,9 +42,15 @@ def get_matches(page, competition_id):
     page.wait_for_timeout(5000)
 
     html = page.content()
+    with open(
+            "debug_competitions.html",
+            "w",
+            encoding="utf-8"
+    ) as f:
+        f.write(html)
     if "Verificació de seguretat" in html:
-        raise Exception(
-            "FCBQ ha retornat un reCAPTCHA"
+        print(
+            "RECAPTCHA detectat"
         )
 
     with open(
@@ -66,9 +78,15 @@ def get_match_details(page, match_id):
     page.wait_for_timeout(5000)
 
     html = page.content()
+    with open(
+            "debug_competitions.html",
+            "w",
+            encoding="utf-8"
+    ) as f:
+        f.write(html)
     if "Verificació de seguretat" in html:
-        raise Exception(
-            "FCBQ ha retornat un reCAPTCHA"
+        print(
+            "RECAPTCHA detectat"
         )
 
     if "Verificació de seguretat" in html:

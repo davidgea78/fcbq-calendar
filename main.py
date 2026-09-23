@@ -24,12 +24,24 @@ with open(
 
 
 with sync_playwright() as p:
-
     context = p.chromium.launch_persistent_context(
         user_data_dir="playwright_profile",
-        headless=False
+        headless=False,
+        user_agent=(
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/139.0.0.0 Safari/537.36"
+        )
     )
-    page = context.new_page()
+    page.add_init_script("""
+    Object.defineProperty(
+        navigator,
+        'webdriver',
+        {
+            get: () => undefined
+        }
+    )
+    """)
     page.set_viewport_size({
         "width": 1920,
         "height": 1080
