@@ -24,6 +24,7 @@ with open(
 
 
 with sync_playwright() as p:
+
     context = p.chromium.launch_persistent_context(
         user_data_dir="playwright_profile",
         headless=False,
@@ -33,6 +34,8 @@ with sync_playwright() as p:
             "Chrome/139.0.0.0 Safari/537.36"
         )
     )
+    page = context.new_page()
+
     page.add_init_script("""
     Object.defineProperty(
         navigator,
