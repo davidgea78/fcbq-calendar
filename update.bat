@@ -5,7 +5,8 @@ echo FCBQ CALENDAR UPDATE
 echo ============================
 echo.
 
-cd /d C:\Users\LoMaR\PycharmProjects\fcbq-calendar
+cd /d C:\Users\LoMaR\Documents\fcbq-calendar
+
 
 call .venv\Scripts\activate.bat
 
